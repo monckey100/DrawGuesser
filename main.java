@@ -32,10 +32,10 @@ public class main {
         System.out.println("Please pick a mode:\n[C]lient\n[S]erver");
         String mode = input.next(); // Get what the user types.
         boolean isClient = mode.toLowerCase() == "c" ? true : false;
-        if(isClient)
-        	runClient();
+        if(isClient) 
+        	new Client();
         else
-        	runServer();
+        	new Server();
     }
 
 }
