@@ -2,15 +2,22 @@
  *  Compilation:  javac HelloWorld.java
  *  Execution:    java HelloWorld
  *
- *  Client project for Drawsomething game.
+ *  Client/Server chooser for Drawsomething game.
  *
  ******************************************************************************/
-
-public class HelloWorld {
+import java.util.Scanner;
+import java.lang.System;
+public class main {
 
     public static void main(String[] args) {
         // Prints "Hello, World" to the terminal window.
-        System.out.println("Hello, World");
+        Scanner input = new Scanner (System.in);
+        System.out.println("Please pick a mode:\n[C]lient\n[S]erver");
+        String mode = input.next(); // Get what the user types.
+        if(mode == "c")
+          System.out.println("Running as Client..\n");
+        else
+          System.out.println("Running as Server..\n");
     }
 
 }
