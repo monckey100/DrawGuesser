@@ -14,10 +14,11 @@ public class main {
         Scanner input = new Scanner (System.in);
         System.out.println("Please pick a mode:\n[C]lient\n[S]erver");
         String mode = input.next(); // Get what the user types.
-        if(mode == "c")
+        if(mode.toLowerCase() == "c") {
           System.out.println("Running as Client..\n");
-        else
+        } else {
           System.out.println("Running as Server..\n");
+        }
     }
 
 }
