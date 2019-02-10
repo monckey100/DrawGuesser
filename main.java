@@ -16,7 +16,7 @@ public class main {
 	 * Database - Stores Image bytes or image location? Usernames + Passwords, Turn order,
 	 * Points, Words available, Words guess correctly, level, EXP..... 
 	 * 
-	 * 
+	 * 	
 	 * Client - Can guess an image that is shown that another user drew, provided by server
 	 * Send image to server, requests for data. 3 Modes: Guess, Draw, Create.
 	 * Guess: Guess Image randomly picked by server
