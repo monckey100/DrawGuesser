@@ -2,11 +2,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class LoginPage {
 
@@ -46,8 +48,9 @@ public class LoginPage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNameOfThe = new JLabel("Name of the game will be changed later");
-		lblNameOfThe.setBounds(292, 61, 370, 16);
+		JLabel lblNameOfThe = new JLabel("Guessing game ");
+		lblNameOfThe.setFont(new Font("Algerian", Font.PLAIN, 30));
+		lblNameOfThe.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNameOfThe);
 		
 		JLabel lblNewLabel = new JLabel("User Name");
@@ -59,11 +62,14 @@ public class LoginPage {
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JButton btnLogin = new JButton("Login");
+		
+		
 	
 		btnLogin.setBounds(282, 408, 97, 25);
 		frame.getContentPane().add(btnLogin);
 		
 		JButton btnSignUp = new JButton("Sign Up");
+		
 		
 		btnSignUp.setBounds(476, 408, 97, 25);
 		frame.getContentPane().add(btnSignUp);
@@ -76,5 +82,63 @@ public class LoginPage {
 		passwordFieldSignIn = new JPasswordField();
 		passwordFieldSignIn.setBounds(282, 281, 291, 38);
 		frame.getContentPane().add(passwordFieldSignIn);
+		
+		
+		// Button Onlick Listener
+		// Login button event handler
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Check whether the entered username and password is correct or not
+				if(passwordChecking()) {
+					// Direct to home page screen
+					HomePage homePage = new HomePage();
+					homePage.Home();
+					// Close previous screen
+					frame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, " Incorrect username or password.\n Please try again");
+				}
+			}
+		});
+		
+		// Sign up button event handler
+		btnSignUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SignUpPage signUp = new SignUpPage();
+				// Redirect to sign up screen
+				signUp.SignUp();
+				// Close previous screen
+				frame.dispose();
+			}
+		});
+	}
+	
+	private boolean passwordChecking() {
+		// Variable that will determine whether the user name and password are valid or not
+		boolean check = false;
+		// Variables that hold username and password
+		String loginUserName = textFieldUserName.getText();
+		String loginPassword = "";
+		// Variables that hold username and password in the database
+		String dbUserName= "";
+		String dbPassword= "";
+		// Retrieve password
+		char[] password = passwordFieldSignIn.getPassword();
+		// Convert char array to string
+		for(char values : password) {
+			loginPassword += values;
+		}
+		// Compare the user name and password with those in the database
+		// If not exists in the database then return false
+		
+		
+		
+		// 
+		//
+		
+		
+		
+		return check;
 	}
 }

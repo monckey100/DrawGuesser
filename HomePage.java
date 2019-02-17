@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class HomePage {
 
@@ -12,7 +13,7 @@ public class HomePage {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void Home() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -41,8 +42,9 @@ public class HomePage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("name here");
-		lblNewLabel.setBounds(292, 33, 127, 16);
+		JLabel lblNewLabel = new JLabel("Guessing game ");
+		lblNewLabel.setFont(new Font("Algerian", Font.PLAIN, 30));
+		lblNewLabel.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblUserName = new JLabel("User Name here");

@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class FinishScreen {
 
@@ -52,8 +53,9 @@ public class FinishScreen {
 		labelXP.setBounds(12, 151, 99, 16);
 		frame.getContentPane().add(labelXP);
 		
-		JLabel lblNameHere = new JLabel("name here");
-		lblNameHere.setBounds(397, 39, 166, 16);
+		JLabel lblNameHere = new JLabel("Guessing game ");
+		lblNameHere.setFont(new Font("Algerian", Font.PLAIN, 30));
+		lblNameHere.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNameHere);
 		
 		JLabel lblTotalGuessFor = new JLabel("Total Guesses for this image");

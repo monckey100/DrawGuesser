@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import java.awt.Font;
 
 public class GuessingPage {
 
@@ -51,8 +52,9 @@ public class GuessingPage {
 		btnGuessing.setBounds(460, 457, 147, 51);
 		frame.getContentPane().add(btnGuessing);
 		
-		JLabel lblNameHere = new JLabel("name here");
-		lblNameHere.setBounds(289, 26, 99, 16);
+		JLabel lblNameHere = new JLabel("Guessing game ");
+		lblNameHere.setFont(new Font("Algerian", Font.PLAIN, 30));
+		lblNameHere.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNameHere);
 		
 		JLabel labelUserName = new JLabel("User Name here");
