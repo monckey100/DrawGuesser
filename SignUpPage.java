@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -73,10 +74,12 @@ public class SignUpPage {
 		frame.getContentPane().add(passwordFieldSignUp);
 		
 		JButton btnConfirmSignUp = new JButton("Confirm");
+		
 		btnConfirmSignUp.setBounds(102, 611, 140, 38);
 		frame.getContentPane().add(btnConfirmSignUp);
 		
 		JButton btnCancel = new JButton("Cancel");
+		
 
 		btnCancel.setBounds(459, 611, 140, 38);
 		frame.getContentPane().add(btnCancel);
@@ -109,7 +112,103 @@ public class SignUpPage {
 		textFieldEmail.setColumns(10);
 		
 		JButton btnReset = new JButton("Reset");
+		
 		btnReset.setBounds(279, 611, 140, 38);
 		frame.getContentPane().add(btnReset);
+		// Confirm button event handler
+		btnConfirmSignUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// No empty input allow
+				if (emptyChecking()) {
+					JOptionPane.showMessageDialog(null, " Unvalid input.\n Please try again");
+				}
+				else {
+					// Update the user's data to the database
+					if(signUpPasswordChecking()) {
+					
+						
+					}
+					// Existing data inside the database
+					else {						
+						JOptionPane.showMessageDialog(null, " Existing email or username or password.\n Please try again");
+					}
+				}
+			}
+		});
+		// Reset button event handler
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Clear all the text fields
+				textFieldFirstName.setText("");
+				textFieldLastName.setText("");
+				textFieldEmail.setText("");
+				textFieldUserNameSignUp.setText("");
+				passwordFieldSignUp.setText("");
+			}
+		});
+		// Cancel button event handler
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Redirect to login page
+				LoginPage loginPage = new LoginPage();
+				loginPage.run();
+				frame.dispose();
+			}
+		});
+	}
+	
+	
+	
+	private boolean signUpPasswordChecking() {
+		// Variable that will determine whether the email, username and password are valid or not
+		boolean check = false;
+		// Variables that hold first name, last name, email, username and password
+		String firstName = textFieldFirstName.getText();
+		String lastName = textFieldLastName.getText();
+		String email = textFieldEmail.getText();
+		String signUpUserName = textFieldUserNameSignUp.getText();
+		String signUpPassword = "";
+		// Variables that hold username and password in the database
+		String dbEmail = "";
+		String dbUserName= "";
+		String dbPassword= "";
+		
+		// Retrieve password
+		char[] password = passwordFieldSignUp.getPassword();
+		// Convert char array to string
+		for(char values : password) {
+			signUpPassword += values;
+		}
+		// Compare the email, username and password with those in the database
+		// If exists in the database then return false 
+		// If not then return true
+		
+		
+		
+		// 
+		//
+		
+		
+		
+		return check;
+	}
+	
+	private boolean emptyChecking() {
+		// Variable that will help determine empty fields
+		boolean check = false;
+		if( textFieldFirstName.getText().isEmpty() ||
+			textFieldLastName.getText().isEmpty()  ||
+			textFieldEmail.getText().isEmpty() ||
+			textFieldUserNameSignUp.getText().isEmpty() ||
+			(passwordFieldSignUp.getPassword().equals(null))
+		  )
+		{
+			check = true;
+		}
+	
+			
+		
+		
+		return check;
 	}
 }
