@@ -2,13 +2,18 @@
     import java.awt.*;
     import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
     public class DrawingPage{
         public static void main(String[] args){     
@@ -89,7 +94,12 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
     sendButton.addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent e){
+        	//We can use the JPEG if we want to save user drawings or 
+        	//whatever in the future without referring to DB.
         	drawPad.saveComponentAsJPEG(drawPad,"C:/test.jpg");
+        	//Send byte to server for storage.
+        	String myBytes = drawPad.saveComponentAsByte(drawPad);
+        	drawPad.ByteToImage(myBytes, "C:/translated.jpg");
         }
     });
     greenButton.setPreferredSize(new Dimension(80, 20));
@@ -261,5 +271,38 @@ public void saveComponentAsJPEG(Component myComponent, String filename) {
     } catch (Exception e) {
       System.out.println(e); 
     }
-  } 
+  }
+public String saveComponentAsByte(Component myComponent) {
+    Dimension size = myComponent.getSize();
+    BufferedImage myImage = 
+      new BufferedImage(size.width, size.height,
+      BufferedImage.TYPE_INT_RGB);
+    Graphics2D g2 = myImage.createGraphics();
+    myComponent.paint(g2);
+    try {
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      ImageIO.write(myImage, "jpeg", outputStream);
+      String encodedImage = Base64.encode(outputStream.toByteArray());
+      System.out.println(encodedImage);
+      return encodedImage;
+    } catch (Exception e) {
+      System.out.println(e); 
+    }
+	return null; //something failed.
+  }
+public void ByteToImage(String bytes, String filename) {
+	String data = "data:image/jpeg;base64,"+bytes;
+	String base64Image = data.split(",")[1];
+	byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+	try {
+		BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+	      OutputStream out = new FileOutputStream(filename);
+	      JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+	      encoder.encode(img);
+	      out.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
 }
