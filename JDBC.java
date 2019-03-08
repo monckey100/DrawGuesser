@@ -6,7 +6,7 @@ public class JDBC {
 	        Connection con=null;  
 	        try{  
 	        	String dbURL = "jdbc:sqlserver://localhost;"
-						+ "instanceName=SQLEXPRESS;database=xxxxxx;user=sa;password=;";
+						+ "instanceName=SQLEXPRESS;database=DrawGuesser;user=sa;password=;";
 
 				con = DriverManager.getConnection(dbURL); 
 	        }catch(Exception e){System.out.println(e);}  
@@ -15,12 +15,12 @@ public class JDBC {
 	  
 	  
 	  
-	  public static int save(User e){  
+	  public static int AddUser(User e){  
 	        int status=0;  
 	        try{  
 	            Connection con=JDBC.getConnection();  
 	            PreparedStatement ps=con.prepareStatement(  
-	                         "insert into user(Fname,Lname,password,email) values (?,?,?,?)");  
+	                         "insert into _User(Fname,Lname,_Password,Email) values (?,?,?,?)");  
 	            ps.setString(1,e.getFname()); 
 	            ps.setString(2,e.getLname());
 	            ps.setString(3,e.getPassword());  
@@ -39,7 +39,7 @@ public class JDBC {
 	        try{  
 	            Connection con=JDBC.getConnection();  
 	            PreparedStatement ps=con.prepareStatement(  
-	                         "update user set Fname=?,Lname=?,password=?,email=? where id=?");  
+	                         "update _User set Fname=?,Lname=?,_Password=?,Email=? where UserID=?");  
 	            ps.setString(1,e.getFname()); 
 	            ps.setString(2,e.getLname());
 	            ps.setString(3,e.getPassword());  
@@ -58,7 +58,7 @@ public class JDBC {
 	        int status=0;  
 	        try{  
 	            Connection con=JDBC.getConnection();  
-	            PreparedStatement ps=con.prepareStatement("delete from user where id=?");  
+	            PreparedStatement ps=con.prepareStatement("delete from user where UserID=?");  
 	            ps.setInt(1,id);  
 	            status=ps.executeUpdate();  
 	              
@@ -75,7 +75,7 @@ public class JDBC {
 	          
 	        try{  
 	            Connection con=JDBC.getConnection();  
-	            PreparedStatement ps=con.prepareStatement("select * from user905 where id=?");  
+	            PreparedStatement ps=con.prepareStatement("select * from _User where UserID=?");  
 	            ps.setInt(1,id);  
 	            ResultSet rs=ps.executeQuery();  
 	            if(rs.next()){  
@@ -97,7 +97,7 @@ public class JDBC {
 	          
 	        try{  
 	            Connection con=JDBC.getConnection();  
-	            PreparedStatement ps=con.prepareStatement("select * from user");  
+	            PreparedStatement ps=con.prepareStatement("select * from _User");  
 	            ResultSet rs=ps.executeQuery();  
 	            while(rs.next()){  
 	            	User e=new User();  
