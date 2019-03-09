@@ -1,10 +1,24 @@
+import java.io.*;
+import java.net.*;
 
-public class Client {
-
-	public Client() {
-		// TODO Auto-generated constructor stub
-		
-		//Perform client stuff here.
-	}
-
+class Client
+{
+   public static void main(String args[]) throws Exception
+   {
+      BufferedReader inFromUser =
+         new BufferedReader(new InputStreamReader(System.in));
+      DatagramSocket clientSocket = new DatagramSocket();
+      InetAddress IPAddress = InetAddress.getByName("localhost");
+      byte[] sendData = new byte[1024];
+      byte[] receiveData = new byte[1024];
+      String sentence = "This is a request from client to test the server";
+      sendData = sentence.getBytes();
+      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+      clientSocket.send(sendPacket);
+      DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+      clientSocket.receive(receivePacket);
+      String modifiedSentence = new String(receivePacket.getData());
+      System.out.println("FROM SERVER:" + modifiedSentence);
+      clientSocket.close();
+   }
 }
