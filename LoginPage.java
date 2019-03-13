@@ -118,6 +118,7 @@ public class LoginPage {
 		});
 	}
 	
+	Client clientHandling = new Client();
 	private boolean passwordChecking() {
 		// Variable that will determine whether the user name and password are valid or not
 		boolean check = false;
@@ -125,8 +126,7 @@ public class LoginPage {
 		String loginUserName = textFieldUserName.getText();
 		String loginPassword = "";
 		// Variables that hold username and password in the database
-		String dbUserName= "";
-		String dbPassword= "";
+		
 		// Retrieve password
 		char[] password = passwordFieldSignIn.getPassword();
 		// Convert char array to string
@@ -135,14 +135,15 @@ public class LoginPage {
 		}
 		// Compare the user name and password with those in the database
 		// If not exists in the database then return false
-		
-		
-		
-		// 
-		//
-		
-		
-		
-		return check;
+		// check username
+		if (clientHandling.getDatabaseData(loginUserName, "userName").trim().isEmpty())
+			return check;
+		else {
+			// if username exist then check password
+			if (!clientHandling.getDatabaseData(loginPassword, "password").trim().isEmpty())
+				return check = true;
+			else
+				return check;
+		}
 	}
 }
