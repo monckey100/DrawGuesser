@@ -1,3 +1,10 @@
+IF EXISTS (SELECT name FROM sys.databases WHERE name = N'DrawGuesser')
+    DROP DATABASE [DrawGuesser]
+GO
+
+CREATE DATABASE DrawGuesser;
+GO
+
 use DrawGuesser;
 
 create table  _User
@@ -10,12 +17,17 @@ create table  _User
 	 _Exp				int Not Null
 	);
 
-create table Word_Catagory
-	(WordID					int Not Null primary key Identity(1,1), 
-	 WordName				varchar(64) Not Null, 
+create table Word_Category
+	(CategoryID				int Not Null primary key Identity(1,1), 
 	 CatagoryName			varchar(64) Not Null
-	);
-
+);
+create table Words(
+	 WordID					int Not Null primary key Identity(1,1), 
+	 CategoryID			int Not Null,
+	 WordName				varchar(64) Not Null
+	 foreign key(CategoryID) references Word_Category(CategoryID)
+	 
+)
 create table DifficultyLevel
 	(DifficultyLevel		int Not Null primary key, 
 	 TimePeriod				int Not Null
@@ -30,7 +42,7 @@ create table Drawing
 	 DrawingData            varBinary(MAX),
 
 	  foreign key (UserID) references _User(UserID),
-	  foreign key (WordID) references Word_Catagory(WordID) ,
+	  foreign key (WordID) references Words(WordID) ,
 	  foreign key (DifficultyLevel) references DifficultyLevel(DifficultyLevel) 
 
 	);
@@ -50,19 +62,25 @@ Create table Guess
 	);
 
 
+insert into Word_Category (CatagoryName) values 
+	('Fruit'),
+	('Animal'),
+	('Games');
 
-
-insert into  Word_Catagory values ( 'Apple', 'Fruit');
-insert into  Word_Catagory values ( 'papaya', 'Fruit');
-insert into  Word_Catagory values ( 'banana', 'Fruit');
-
-insert into  Word_Catagory values ( 'Cat', 'Animal');
-insert into  Word_Catagory values ( 'Dog', 'Animal');
-insert into  Word_Catagory values ( 'Fish', 'Animal');
-
-insert into  DifficultyLevel values (1, 180);
-insert into  DifficultyLevel values (2, 120);
-insert into  DifficultyLevel values (3, 60);
-
-Select *
-From Word_Catagory
+insert into  Words (CategoryID, WordName) values 
+	( 1, 'Apple'),
+	( 1, 'Papaya'),
+	( 1, 'Banana'),
+	( 2, 'Cat'),
+	( 2, 'Dog'),
+	( 2, 'Fish'),
+	( 3, 'Mario'),
+	( 3, 'Luigi'),
+	( 3, 'Sanic');
+insert into  DifficultyLevel values 
+	(1, 180),
+	(2, 120),
+	(3, 60);
+Select WordID,Word_Category.CatagoryName,WordName From Words
+	JOIN Word_Category ON Word_Category.CategoryID = Words.CategoryID;
+GO
