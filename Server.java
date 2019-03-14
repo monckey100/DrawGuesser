@@ -11,39 +11,75 @@ class Server
 {
    public static void main(String args[]) throws Exception
       {
-	   DatagramSocket serverSocket = new DatagramSocket(9876);
+	   connectionHandler myConn = new connectionHandler();
+	   // OPen connection to the database
+	   JDBC2 jdbc = new JDBC2();
             while(true)
-              {
-            	
-                byte[] receiveData = new byte[1024];
-                byte[] sendData = new byte[1024];
-            	
+              {                       
+                 String sentence = myConn.getPackets();
+                 if(sentence != null) {
+                	 System.out.println("RECEIVED: " + sentence); 
+                	 // Get request and request type
+                	 String[] requestArray = sentence.split(",");
+                	 
+                	 String dbResult = jdbc.getResult(requestArray[0],requestArray[1]);
+                	 myConn.sendPacket(dbResult);
+                  }
 
-                  DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                  serverSocket.receive(receivePacket);
-                  String sentence ="";
-                 
-                  sentence = new String( receivePacket.getData());
-                  
-                  System.out.println("RECEIVED: " + sentence);
-                  InetAddress IPAddress = receivePacket.getAddress();
-                  int port = receivePacket.getPort();
-
-                  // Split the request and the type of it
-                  String[] requestArray = sentence.split(",");
-                  // Call a method from jdbc class to get the database result
-                  JDBC2 jdbc = new JDBC2();
-
-                  String dbResult = jdbc.getResult(requestArray[0],requestArray[1]);
-                 
-                  
-                                   
-                  sendData = dbResult.getBytes();
-                  DatagramPacket sendPacket =
-                  new DatagramPacket(sendData, sendData.length, IPAddress, port);
-                  serverSocket.send(sendPacket);
                }
       }
    
 
+}
+class connectionHandler {
+	DatagramSocket serverSocket;
+	InetAddress IPAddress;
+	int port;
+	public connectionHandler() {
+		 try {
+			serverSocket = new DatagramSocket(9876);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public String getPackets() {
+		//INIT Variables
+		String myPacket = null;
+		byte[] receiveData = new byte[1024];
+		
+		//Packet received
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		try {
+			serverSocket.receive(receivePacket);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Convert Bytes into String
+		myPacket = new String( receivePacket.getData());
+		
+		//Set Return IP Address & Port
+		IPAddress = receivePacket.getAddress();
+		port = receivePacket.getPort();
+		return myPacket;
+	}
+	public boolean sendPacket(String myPacket) {
+		byte[] sendData = new byte[1024];
+		
+		//Convert to bytes
+		sendData = myPacket.getBytes();
+		
+        DatagramPacket sendPacket =
+        new DatagramPacket(sendData, sendData.length, IPAddress, port);
+        try {
+			serverSocket.send(sendPacket);
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

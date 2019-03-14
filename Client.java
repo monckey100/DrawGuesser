@@ -10,11 +10,11 @@ class Client
     
    public static void main(String args[]) throws Exception
    {
-	   // just for testing
-	   /*String a = getDatabaseData("funny test","CC");
-	   System.out.println(a);
-	  String b = getDatabaseData("aa","DD");
-	   System.out.println(b);*/
+	   	// just for testing
+	   	/*String a = getDatabaseData("funny test","CC");
+	   	System.out.println(a);
+	  	String b = getDatabaseData("aa","DD");
+	    */
    }
    
    public static String getDatabaseData(String requestType,String userRequest)   {
@@ -93,19 +93,3 @@ class Client
 }
 
 
-
-
-
-
-
-/* 
-/// Concatenation between request and request type
-
-sendData = request.getBytes();
-DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
-try {
-	clientSocket.send(sendPacket);
-} catch (IOException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}*/

@@ -52,7 +52,7 @@ public class JDBC2 {
 		String result="";
 		openConnection();
 		String query="SELECT * FROM _USER WHERE ? = ?";
-		
+
 		try {
 			if (conn != null) {
 				PreparedStatement prepStatement = getUserNameAndPassword(query,typeOfRequest,request);
