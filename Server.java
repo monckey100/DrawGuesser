@@ -35,7 +35,7 @@ class Server
                   JDBC2 jdbc = new JDBC2();
 
                   String dbResult = jdbc.getResult(requestArray[0],requestArray[1]);
-                  
+                 
                   
                                    
                   sendData = dbResult.getBytes();
