@@ -63,7 +63,7 @@ class Client
 			e.printStackTrace();
 		}
    }
-   
+  
    public static String receiveData(int waitTime) {
 	   byte[] receiveData = new byte[1024];
 	   String databasePackage;

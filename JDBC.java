@@ -29,7 +29,9 @@ public class JDBC {
 	            status=ps.executeUpdate();  
 	              
 	            con.close();  
-	        }catch(Exception ex){ex.printStackTrace();}  
+	        }catch(Exception ex){
+	        	ex.printStackTrace();
+	        	}  
 	          
 	        return status;  
 	    }  

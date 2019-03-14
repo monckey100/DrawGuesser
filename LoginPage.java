@@ -126,7 +126,7 @@ public class LoginPage {
 		String loginUserName = textFieldUserName.getText();
 		String loginPassword = "";
 		// Variables that hold username and password in the database
-		
+	
 		// Retrieve password
 		char[] password = passwordFieldSignIn.getPassword();
 		// Convert char array to string

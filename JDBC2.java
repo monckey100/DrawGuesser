@@ -68,7 +68,7 @@ public class JDBC2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	
 		closeConnection();
 		return result;
 		
