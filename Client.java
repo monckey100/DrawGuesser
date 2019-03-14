@@ -14,24 +14,17 @@ class Client
 	    */
    }
    
-   public static String getDatabaseData(String requestType,String userRequest)   {
-	   inFromUser = new BufferedReader(new InputStreamReader(System.in));
-	   clientConnection myConn = new clientConnection("localhost");
-		      
-			// Concatenate the request
-			String request = requestType+","+userRequest;
+   public static String login(String username,String password)   {
+	   		clientConnection myConn = new clientConnection("localhost");
 			// Send the request
-			myConn.sendData(request);			     
-
+	   		String[] Data = {username,password};
+			myConn.sendData("LOGIN",Data);			     
 			myConn.receiveData();
 			if(myConn.getType() == "LOGIN") {
-				//Move to next screen and do stuff with 
-				//myConn.getData();
 				System.out.println("FROM SERVER:" + myConn.getData()[0]); //prints success/fail 
 			}
-		      		      
 		    myConn.closeConnection();
-	   return myConn.getData()[0];
+		    return myConn.getData()[0];
 	   
    }
 
@@ -57,7 +50,10 @@ class clientConnection {
 			e.printStackTrace();
 		}
 	}
-	public void sendData( String request) {
+	public void sendData(String Type,String[] data) {
+		sendrawData(Type + data.toString());
+	}
+	public void sendrawData( String request) {
 			  
 		      byte[] sendData = new byte[1024];
 		      sendData = request.getBytes();

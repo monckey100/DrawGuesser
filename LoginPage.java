@@ -121,7 +121,6 @@ public class LoginPage {
 	Client clientHandling = new Client();
 	private boolean passwordChecking() {
 		// Variable that will determine whether the user name and password are valid or not
-		boolean check = false;
 		// Variables that hold username and password
 		String loginUserName = textFieldUserName.getText();
 		String loginPassword = "";
@@ -133,17 +132,7 @@ public class LoginPage {
 		for(char values : password) {
 			loginPassword += values;
 		}
-		// Compare the user name and password with those in the database
-		// If not exists in the database then return false
-		// check username
-		if (clientHandling.getDatabaseData(loginUserName, "userName").trim().isEmpty())
-			return check;
-		else {
-			// if username exist then check password
-			if (!clientHandling.getDatabaseData(loginPassword, "password").trim().isEmpty())
-				return check = true;
-			else
-				return check;
-		}
+		//If username and password is good, returns successful.
+		return Client.login(loginUserName, loginPassword) == "Success";
 	}
 }
