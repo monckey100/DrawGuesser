@@ -10,6 +10,7 @@ class Client
 	   System.out.println(a.isEmpty());
 	  String b = getDatabaseData("aa","DD");
 	   System.out.println(b.trim().isEmpty());*/
+	   //getDatabaseData("Test","test2");
    }
    
    public static String getDatabaseData(String userRequest,String requestType)   {

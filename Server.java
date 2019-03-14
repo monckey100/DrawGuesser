@@ -11,35 +11,20 @@ class Server
 {
    public static void main(String args[]) throws Exception
       {
-	   DatagramSocket serverSocket = new DatagramSocket(9876);
+	   connectionHandler myConn = new connectionHandler();
             while(true)
               {
             	
-                byte[] receiveData = new byte[1024];
-                byte[] sendData = new byte[1024];
-            	
-            	///
-                  DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                  serverSocket.receive(receivePacket);
-                  String sentence ="";
-                  
-                  sentence = new String( receivePacket.getData());
-                  
-                  System.out.println("RECEIVED: " + sentence);
-                  InetAddress IPAddress = receivePacket.getAddress();
-                  int port = receivePacket.getPort();
-                  /////
-                  // Split the request and the type of it
-                  String[] requestArray = sentence.split(",");
-                  // Call a method to get the database result
-                  String dbResult = getDatabaseResult(requestArray[1],requestArray[0]);
-                  
-                  
-                                   
-                  sendData = dbResult.getBytes();
-                  DatagramPacket sendPacket =
-                  new DatagramPacket(sendData, sendData.length, IPAddress, port);
-                  serverSocket.send(sendPacket);
+                
+                myConn.getPackets();
+            
+                  String sentence = myConn.getPackets();
+                  if(sentence != null) {
+                	  System.out.println("RECEIVED: " + sentence);
+                	  String[] requestArray = sentence.split(",");
+                	  String dbResult = getDatabaseResult(requestArray[1],requestArray[0]);
+                	  myConn.sendPacket(dbResult);
+                  }
                }
       }
    
@@ -82,4 +67,56 @@ class Server
 		
 		return result;
    }
+}
+class connectionHandler {
+	DatagramSocket serverSocket;
+	InetAddress IPAddress;
+	int port;
+	public connectionHandler() {
+		 try {
+			serverSocket = new DatagramSocket(9876);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public String getPackets() {
+		//INIT Variables
+		String myPacket = null;
+		byte[] receiveData = new byte[1024];
+		
+		//Packet received
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		try {
+			serverSocket.receive(receivePacket);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Convert Bytes into String
+		myPacket = new String( receivePacket.getData());
+		
+		//Set Return IP Address & Port
+		IPAddress = receivePacket.getAddress();
+		port = receivePacket.getPort();
+		return myPacket;
+	}
+	public boolean sendPacket(String myPacket) {
+		byte[] sendData = new byte[1024];
+		
+		//Convert to bytes
+		sendData = myPacket.getBytes();
+		
+        DatagramPacket sendPacket =
+        new DatagramPacket(sendData, sendData.length, IPAddress, port);
+        try {
+			serverSocket.send(sendPacket);
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
