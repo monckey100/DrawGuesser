@@ -22,7 +22,7 @@ class Server
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
                   String sentence ="";
-                  
+                 
                   sentence = new String( receivePacket.getData());
                   
                   System.out.println("RECEIVED: " + sentence);
