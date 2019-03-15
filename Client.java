@@ -1,34 +1,36 @@
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 
 class Client
 {
-	static BufferedReader inFromUser;
- 
-   public static void main(String args[]) throws Exception
-   {
-	   	// just for testing
-	   	/*String a = getDatabaseData("funny test","CC");
-	   	System.out.println(a);
-	  	String b = getDatabaseData("aa","DD");
-	    */
+   public static boolean login(String username,String password)   {
+		  String[] result = send("LOGIN",new String[]{username, password}); 
+		  if(result[0] == "Success") {
+			return true;  
+		  }
+		  return false;
    }
-   
-   public static String login(String username,String password)   {
-	   		clientConnection myConn = new clientConnection("localhost");
-			// Send the request
-	   		String[] Data = {username,password};
-			myConn.sendData("LOGIN",Data);			     
-			myConn.receiveData();
-			if(myConn.getType() == "LOGIN") {
-				System.out.println("FROM SERVER:" + myConn.getData()[0]); //prints success/fail 
-			}
-		    myConn.closeConnection();
-		    return myConn.getData()[0];
-	   
+   public static boolean signup(String firstname, String lastname, String email, String username, String password) {
+	  String[] result = send("SIGNUP",new String[]{firstname, lastname, email, username, password}); 
+	  if(result[0] == "Success") {
+		return true;  
+	  }
+	  return false;
    }
-
-
+   public static String[] send(String type, String[] Data) {
+  		clientConnection myConn = new clientConnection("localhost");
+		// Send the request
+		myConn.sendData(type,Data);			     
+		myConn.receiveData();
+		if(myConn.getType() == type) {
+			System.out.println("FROM SERVER:" + myConn.getData()[0]); //prints success/fail 
+		} else {
+			System.out.println("ERROR FROM SERVER: " + myConn.getData()[0]);
+		}
+	    myConn.closeConnection(); 
+	   return myConn.getData();
+   }
 }
 class clientConnection {
 	InetAddress IPAddress = null;
@@ -51,10 +53,9 @@ class clientConnection {
 		}
 	}
 	public void sendData(String Type,String[] data) {
-		sendrawData(Type + data.toString());
+		sendrawData(Type + "|" + Arrays.toString(data));
 	}
 	public void sendrawData( String request) {
-			  
 		      byte[] sendData = new byte[1024];
 		      sendData = request.getBytes();
 		      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
@@ -88,7 +89,7 @@ class clientConnection {
 		return mData;
 	}
 	public void parseData() {
-		String[] f = rawData.split(",");
+		String[] f = rawData.trim().split("\\|");
 		mType = f[0];
 		mData = pData(f[1]);
 	}

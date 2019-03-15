@@ -117,8 +117,6 @@ public class LoginPage {
 			}
 		});
 	}
-	
-	Client clientHandling = new Client();
 	private boolean passwordChecking() {
 		// Variable that will determine whether the user name and password are valid or not
 		// Variables that hold username and password
@@ -133,6 +131,6 @@ public class LoginPage {
 			loginPassword += values;
 		}
 		//If username and password is good, returns successful.
-		return Client.login(loginUserName, loginPassword) == "Success";
+		return Client.login(loginUserName, loginPassword);
 	}
 }
