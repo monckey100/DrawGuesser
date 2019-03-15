@@ -30,6 +30,7 @@ class Server
 	                	 myConn.setType("LOGIN");
 	                	 String username = myConn.getData()[0];
 	                	 String password = myConn.getData()[1];
+	                	 System.out.println("Username: '"+username+"' Password: '"+ password+"'");
 	                	 sendInfo = new String[]{"Failed"};
 	                	 /*
 	                	 if(jdbc.checkLogin(username,password)) {
@@ -42,6 +43,10 @@ class Server
                 		 break;
                 	 case "SIGNUP":
                 		 myConn.setType("SIGNUP");
+                		 sendInfo = new String[]{"Failed"};
+                		 break;
+                	 case "IMAGESEND":
+                		 myConn.setType("IMAGESEND");
                 		 sendInfo = new String[]{"Failed"};
                 		 break;
                      default:
@@ -123,7 +128,7 @@ class connectionHandler {
 		String m = requestArray[1].substring(1); 
 		//remove last character ]
 		m = m.substring(0, m.length() - 1);
-		return m.split(","); 
+		return m.split(", "); 
 	}
 	//Sending to client
 	public void setType(String type) {
