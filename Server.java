@@ -31,7 +31,7 @@ class Server
 	                	 if(jdbc.checkLogin(username,password)) {
 	                		 sendInfo[0] = "Successful";
 	                		 sendInfo[1] = jdbc.getEXP(username);
-	                		 sendInfo[2] = jdbc.getLevel(username);
+	                		 sendInfo[2] = jdbc.getLevel(username);			
 	                	 } else {
 	                		 sendInfo[0] = "Failed";
 	                	 }*/
