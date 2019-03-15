@@ -10,10 +10,12 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.text.*;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 
     public class DrawingPage{
         public static void main(String[] args){     
@@ -25,9 +27,16 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     content.setLayout(new BorderLayout());      
 
     final PadDraw drawPad = new PadDraw();      
+   
 
     content.add(drawPad, BorderLayout.CENTER);
 
+    
+    
+    
+    
+    
+    
 
     JPanel panel = new JPanel();
 
@@ -119,7 +128,36 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     panel.add(redButton);
     panel.add(greenButton);
     panel.add(yellowButton);
+    
+    JLabel Countdown = new JLabel("Ready?");
+    panel.add(Countdown);
     panel.add(sendButton);
+    
+    drawPad.addMouseListener(new MouseAdapter() {
+    	Timer t;
+    	int sec =5;
+    	@Override
+    	public void mouseEntered(MouseEvent e) {
+    		t =new Timer(1000,new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					Countdown.setForeground(Color.RED);
+					if(sec==0)
+					{
+						JOptionPane.showMessageDialog(null, "Times up", "Stopped", 0);
+						t.stop();	
+						
+					}else
+					{
+						sec--;
+						Countdown.setText(" "+sec);
+					}										
+				}
+    		});
+    		t.start();
+    	}
+    });
+
 
 
     content.add(panel, BorderLayout.NORTH);
