@@ -11,6 +11,7 @@ create table  _User
 	(UserID				int Not Null primary key  Identity(1,1), 
 	 Fname				varchar(64) Not Null,
 	 Lname				varchar(64) Not Null,
+	 userName			varchar(64) not null unique,
 	 _Password			varchar(64) Not Null,
 	 Email				varchar(64) Not Null,
 	 _Level				int Not Null,

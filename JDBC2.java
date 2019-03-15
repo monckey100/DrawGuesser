@@ -30,14 +30,14 @@ public class JDBC2 {
 		
 	}
 	
-	public static PreparedStatement getUserNameAndPassword(String query,String typeOfRequest, String request) {
+	public static PreparedStatement getUserNameAndPassword(String query,String userName, String password) {
 		PreparedStatement prepStmt1 = null;		
 
 		try {
 			if(conn !=null) {
 				prepStmt1 = conn.prepareStatement(query);
-				prepStmt1.setString(1, typeOfRequest);
-				prepStmt1.setString(2, request);
+				prepStmt1.setString(1, userName);
+				prepStmt1.setString(2, password);
 			}
 			
 			
@@ -74,4 +74,30 @@ public class JDBC2 {
 		
 	}
 	
+	public static boolean checkLogin(String userName, String password) {
+		boolean check =false;
+		
+		openConnection();
+		String query="SELECT userName FROM _USER WHERE userName = ? and _Password =? ";
+
+		try {
+			if (conn != null) {
+				PreparedStatement prepStatement = getUserNameAndPassword(query,userName,password);
+				ResultSet rs = prepStatement.executeQuery();
+				
+				if ( rs.next() ) {
+					check =true;
+				}
+							
+			}
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		closeConnection();
+		return check;
+	}
+
 }
