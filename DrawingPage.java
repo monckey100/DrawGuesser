@@ -147,7 +147,8 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 					{
 						JOptionPane.showMessageDialog(null, "Times up");
 						t.stop();	
-						drawPad.removeMouseListener(null);
+						content.remove(drawPad);
+					
 						
 					}else
 					{
@@ -158,6 +159,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 				
     		});
     		drawPad.removeMouseListener(this);
+    		
     		t.start();
     		
     	}
