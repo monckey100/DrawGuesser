@@ -161,17 +161,11 @@ public class SignUpPage {
 	
 	private boolean signUpPasswordChecking() {
 		// Variable that will determine whether the email, username and password are valid or not
-		boolean check = false;
-		// Variables that hold first name, last name, email, username and password
 		String firstName = textFieldFirstName.getText();
 		String lastName = textFieldLastName.getText();
 		String email = textFieldEmail.getText();
 		String signUpUserName = textFieldUserNameSignUp.getText();
 		String signUpPassword = "";
-		// Variables that hold username and password in the database
-		String dbEmail = "";
-		String dbUserName= "";
-		String dbPassword= "";
 		
 		// Retrieve password
 		char[] password = passwordFieldSignUp.getPassword();
@@ -183,14 +177,7 @@ public class SignUpPage {
 		// If exists in the database then return false 
 		// If not then return true
 		
-		
-		
-		// 
-		//
-		
-		
-		
-		return check;
+		return Client.signup(firstName, lastName, email, signUpUserName, signUpPassword);
 	}
 	
 	private boolean emptyChecking() {

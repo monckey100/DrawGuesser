@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 class Server
 {
@@ -18,33 +19,37 @@ class Server
               {                       
                  String packet = myConn.getPackets();
                  if(packet != null) {
-                	 System.out.println("RECEIVED: " + packet); 
+                	 
                 	 myConn.parsePacket(packet);
                 	 //String dbResult = jdbc.getResult(requestArray[0],requestArray[1]);
-                	 if(myConn.getType() == "LOGIN") {
+                	 String[] sendInfo = null;
+                	 System.out.println("TYPE: " + myConn.getType() + " DATA: " + Arrays.toString(myConn.getData()));
+                	 switch(myConn.getType()) {
+                	 case "LOGIN":
                 		 //We assume getData will be {username,password}
 	                	 myConn.setType("LOGIN");
 	                	 String username = myConn.getData()[0];
 	                	 String password = myConn.getData()[1];
-	                	 String[] sendInfo = null;
+	                	 sendInfo = new String[]{"Failed"};
 	                	 /*
 	                	 if(jdbc.checkLogin(username,password)) {
-	                		 sendInfo[0] = "Successful";
+	                		 sendInfo[0] = "Success";
 	                		 sendInfo[1] = jdbc.getEXP(username);
 	                		 sendInfo[2] = jdbc.getLevel(username);			
 	                	 } else {
 	                		 sendInfo[0] = "Failed";
 	                	 }*/
-	                	 //myConn.setData(new String[]{"My","Data"});
-	                	 myConn.setData(sendInfo);
-                	 } else {
+                		 break;
+                	 case "SIGNUP":
+                		 myConn.setType("SIGNUP");
+                		 sendInfo = new String[]{"Failed"};
+                		 break;
+                     default:
                 		 myConn.setType("ERROR");
                 		 myConn.setData(new String[] {"Error: Could not find Datatype!"});
                 	 }
-                	 //Sends raw data how we want it to.
-                	 //myConn.sendPacket(dbResult);
-                	 
                 	 //Sends setType + setData to server.
+                	 myConn.setData(sendInfo);
                 	 myConn.sendPacket(myConn.packageData());
                   }
 
@@ -108,7 +113,7 @@ class connectionHandler {
 		}
 	}
 	public void parsePacket(String mPacket) {
-		 requestArray = mPacket.split(",");
+		 requestArray = mPacket.trim().split("\\|");
 	}
 	public String getType() {
 		return requestArray[0];
@@ -128,6 +133,6 @@ class connectionHandler {
 		datastuff = data;
 	}
 	public String packageData() {
-		return datatype + "," + datastuff.toString();
+		return datatype + "|" + Arrays.toString(datastuff);
 	}
 }
