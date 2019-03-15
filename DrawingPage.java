@@ -136,16 +136,18 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     drawPad.addMouseListener(new MouseAdapter() {
     	Timer t;
     	int sec =5;
+    	boolean flag = true;
     	@Override
-    	public void mouseEntered(MouseEvent e) {
+    	public void mousePressed(MouseEvent e) {
     		t =new Timer(1000,new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					Countdown.setForeground(Color.RED);
-					if(sec==0)
+					if(sec<1)
 					{
-						JOptionPane.showMessageDialog(null, "Times up", "Stopped", 0);
+						JOptionPane.showMessageDialog(null, "Times up");
 						t.stop();	
+						drawPad.removeMouseListener(null);
 						
 					}else
 					{
@@ -153,9 +155,13 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 						Countdown.setText(" "+sec);
 					}										
 				}
+				
     		});
+    		drawPad.removeMouseListener(this);
     		t.start();
+    		
     	}
+    	
     });
 
 
