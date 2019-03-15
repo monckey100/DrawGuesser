@@ -99,7 +99,11 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
         	drawPad.saveComponentAsJPEG(drawPad,"C:/test.jpg");
         	//Send byte to server for storage.
         	String myBytes = drawPad.saveComponentAsByte(drawPad);
-        	drawPad.ByteToImage(myBytes, "C:/translated.jpg");
+        	
+        	//Image is sent to server.
+        	Client.sendImage(myBytes);
+        	
+        	//drawPad.ByteToImage(myBytes, "C:/translated.jpg");
         }
     });
     greenButton.setPreferredSize(new Dimension(80, 20));

@@ -4,9 +4,13 @@ import java.util.Arrays;
 
 class Client
 {
+   //Set username once authenticated so we can reuse it.
+   public static String username = null; 
    public static boolean login(String username,String password)   {
 		  String[] result = send("LOGIN",new String[]{username, password}); 
 		  if(result[0] == "Success") {
+			//set clients uesrname.
+			Client.username = username;
 			return true;  
 		  }
 		  return false;
@@ -17,6 +21,17 @@ class Client
 		return true;  
 	  }
 	  return false;
+   }
+   //This needs difficulty + what image and whatnot.
+   public static boolean sendImage(String bytes) {
+	   	  if(Client.username != null) {
+			  String[] result = send("IMAGESEND",new String[]{Client.username,bytes}); 
+			  if(result[0] == "Success") {
+				return true;  
+			  }
+			  return false;  
+	   	  }
+	   	  return false;
    }
    public static String[] send(String type, String[] Data) {
   		clientConnection myConn = new clientConnection("localhost");

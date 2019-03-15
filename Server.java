@@ -45,6 +45,10 @@ class Server
                 		 myConn.setType("SIGNUP");
                 		 sendInfo = new String[]{"Failed"};
                 		 break;
+                	 case "IMAGESEND":
+                		 myConn.setType("IMAGESEND");
+                		 sendInfo = new String[]{"Failed"};
+                		 break;
                      default:
                 		 myConn.setType("ERROR");
                 		 myConn.setData(new String[] {"Error: Could not find Datatype!"});
