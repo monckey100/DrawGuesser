@@ -98,7 +98,7 @@ class clientConnection {
 		String m = x.substring(1); 
 		//remove last character ]
 		m = m.substring(0, m.length() - 1);
-		return m.split(","); 
+		return m.split(", "); 
 	}
 	public void closeConnection() {
 		clientSocket.close();
