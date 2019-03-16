@@ -31,7 +31,8 @@ class Server
 	                	 String username = myConn.getData()[0];
 	                	 String password = myConn.getData()[1];
 	                	 System.out.println("Username: '"+username+"' Password: '"+ password+"'");
-	                	 sendInfo = new String[]{"Failed"};
+	                	 //sendInfo = new String[]{"Failed"};
+	                	 sendInfo = new String[]{"Success","1337","1"}
 	                	 /*
 	                	 if(jdbc.checkLogin(username,password)) {
 	                		 sendInfo[0] = "Success";
