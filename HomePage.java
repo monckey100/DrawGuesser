@@ -40,6 +40,8 @@ public class HomePage {
 	 */
 	public HomePage() {
 		initialize();
+		InitializeComboBox();
+		DisplayUsersInformation();
 	}
 
 	/**
@@ -173,8 +175,8 @@ public class HomePage {
 		
 		
 		// Display user's information
-		lblUserName.setText(userName);
-		lblLevel.setText(userLevel+"");
-		lblXP.setText(userXP+"");
+		lblUserName.setText("Name:" +userName);
+		lblLevel.setText("Current level: " +userLevel+"");
+		lblXP.setText("Current Xp: "+userXP+"");
 	}
 }

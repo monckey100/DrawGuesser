@@ -23,13 +23,17 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     JFrame frame = new JFrame("Draw Something");    
 
     Container content = frame.getContentPane();
-
-    content.setLayout(new BorderLayout());      
+    frame.getContentPane().setLayout(null);
+    
+    JLabel lblNewLabel = new JLabel("Topic :");
+    lblNewLabel.setBounds(10, 79, 57, 19);
+    frame.getContentPane().add(lblNewLabel);
 
     final PadDraw drawPad = new PadDraw();      
+    drawPad.setBounds(0, 68, 482, 325);
    
 
-    content.add(drawPad, BorderLayout.CENTER);
+    content.add(drawPad);
 
     
     
@@ -39,6 +43,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     
 
     JPanel panel = new JPanel();
+    panel.setBounds(0, 0, 482, 68);
 
     panel.setPreferredSize(new Dimension(100, 68));
     panel.setMinimumSize(new Dimension(100, 68));
@@ -113,6 +118,11 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
         	Client.sendImage(myBytes);
         	
         	//drawPad.ByteToImage(myBytes, "C:/translated.jpg");
+        	JOptionPane.showMessageDialog(null, "The Drawing Sent");
+        	HomePage homePage = new HomePage();
+			homePage.Home();
+			// Close previous screen
+			frame.dispose();
         }
     });
     greenButton.setPreferredSize(new Dimension(80, 20));
@@ -136,7 +146,6 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     drawPad.addMouseListener(new MouseAdapter() {
     	Timer t;
     	int sec =5;
-    	boolean flag = true;
     	@Override
     	public void mousePressed(MouseEvent e) {
     		t =new Timer(1000,new ActionListener() {
@@ -146,7 +155,8 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 					if(sec<1)
 					{
 						JOptionPane.showMessageDialog(null, "Times up");
-						t.stop();	
+						t.stop();
+						Countdown.setText("Times Over");
 						content.remove(drawPad);
 					
 						
@@ -168,7 +178,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
 
-    content.add(panel, BorderLayout.NORTH);
+    content.add(panel);
 
     JRadioButton rdbtnPx = new JRadioButton("3 px");
     panel.add(rdbtnPx);

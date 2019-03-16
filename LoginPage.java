@@ -29,6 +29,7 @@ public class LoginPage {
 				try {
 					LoginPage window = new LoginPage();
 					window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,6 +87,29 @@ public class LoginPage {
 		passwordFieldSignIn = new JPasswordField();
 		passwordFieldSignIn.setBounds(282, 281, 291, 38);
 		frame.getContentPane().add(passwordFieldSignIn);
+		
+		JButton btnNewButton = new JButton("Home Test");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HomePage homePage = new HomePage();
+				homePage.Home();
+				
+			}
+		});
+		btnNewButton.setBounds(26, 407, 99, 27);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Guess Test");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GuessingPage guess = new GuessingPage();
+				guess.main();
+
+				
+			}
+		});
+		btnNewButton_1.setBounds(26, 352, 99, 27);
+		frame.getContentPane().add(btnNewButton_1);
 		
 		
 		// Button Onlick Listener
