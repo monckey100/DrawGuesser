@@ -20,9 +20,10 @@ class Client {
 		return false;
 	}
 
-	public static boolean signup(String firstname, String lastname, String email, String username, String password) {
-		String[] result = send("SIGNUP", new String[] { firstname, lastname, email, username, password });
+	public static boolean signup(String username, String password, String firstname, String lastname, String email) {
+		String[] result = send("SIGNUP", new String[] { username, password, firstname, lastname, email });
 		if (result[0].equals("Success")) {
+	
 			return true;
 		}
 		return false;

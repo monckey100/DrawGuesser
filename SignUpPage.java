@@ -125,12 +125,15 @@ public class SignUpPage {
 				else {
 					// Update the user's data to the database
 					if(signUpPasswordChecking()) {
-					
+						JOptionPane.showMessageDialog(null, " Successfully add your information in the database !");
+						frame.dispose();
+						LoginPage loginPage = new LoginPage();
+						loginPage.run();
 						
 					}
 					// Existing data inside the database
 					else {						
-						JOptionPane.showMessageDialog(null, " Existing email or username or password.\n Please try again");
+						JOptionPane.showMessageDialog(null, " Existing email or username .\n Please try again");
 					}
 				}
 			}
@@ -163,6 +166,7 @@ public class SignUpPage {
 		// Variable that will determine whether the email, username and password are valid or not
 		String firstName = textFieldFirstName.getText();
 		String lastName = textFieldLastName.getText();
+		String userName = textFieldUserNameSignUp.getText();
 		String email = textFieldEmail.getText();
 		String signUpUserName = textFieldUserNameSignUp.getText();
 		String signUpPassword = "";
@@ -177,7 +181,7 @@ public class SignUpPage {
 		// If exists in the database then return false 
 		// If not then return true
 		
-		return Client.signup(firstName, lastName, email, signUpUserName, signUpPassword);
+		return Client.signup(userName, signUpPassword, firstName, lastName, email);
 	}
 	
 	private boolean emptyChecking() {

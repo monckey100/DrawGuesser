@@ -44,7 +44,8 @@ class Server {
 					break;
 				case "SIGNUP":
 					myConn.setType("SIGNUP");
-					sendInfo = new String[] { "Failed" };
+					sendInfo = jdbc.modifyData("SIGNUP", myConn.getData());
+				//	sendInfo = new String[] { "Failed" };
 					break;
 				case "IMAGESEND":
 					myConn.setType("IMAGESEND");

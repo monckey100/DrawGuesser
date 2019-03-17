@@ -35,16 +35,20 @@ public class JDBC2 {
 		
 	}
 	
-	public static String getQuery(String requestType) {
+	public static String getQuery(String requestType,String uniqueUserName, String uniqueEmail) {
 		String result = "";
 		switch(requestType) {
 		case "LOGIN":
-			result = "SELECT userName,_XP,_LEVEL FROM _USER WHERE ? = ?";
+			result = "SELECT userName,_XP,_LEVEL FROM _User WHERE userName = ? AND _Password = ?";
 			break;
 		// Will continue on later
-		case "SIGN_UP":
-			result = "INSERT INTO _USER (userName,_Password,Fname,Lname,Email,_Level,_Exp) "
-					+ "VALUES(?,?,?,?,?,1,0)" ;
+		case "SIGNUP":
+			result =  "IF NOT EXISTS ( SELECT * FROM _User WHERE Email = '" +uniqueEmail+"' OR userName = '"+ uniqueUserName+"' ) "
+					+ " BEGIN "
+					+ " INSERT INTO _USER (userName,_Password,Fname,Lname,Email,_Level,_Exp) "
+					+ " VALUES(?,?,?,?,?,1,0) END "
+					+ " ELSE BEGIN DBCC CHECKIDENT ('_User', RESEED, 1) " // problem
+					+ "END;" ;
 			break;
 		}
 		
@@ -82,12 +86,12 @@ public class JDBC2 {
 		// Open the connection
 		openConnection();
 
-		// Get query base on type
-		String query= getQuery(requestType);
+		// Get query base on type, userNAme and email must be unique
+		String query= getQuery(requestType,args[0],args[4]);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 		// Initialize array 
-		String[] resultArray = null;
+		String[] resultArray = new String[args.length];
 		try {
 			if (conn != null) {
 				
@@ -98,10 +102,11 @@ public class JDBC2 {
 					check =true;
 					validUserName = rs.getString("userName");
 				}
-				for( int i = 0 ; i < args.length ; i++) {
-					// Items's index will be the same as the columns in select query
-					resultArray[i] = rs.getString(args[i]);
-				}
+				if(check)
+					for( int i = 0 ; i < args.length ; i++) {
+						// Items's index will be the same as the columns in select query
+						resultArray[i] = rs.getString(args[i]);
+					}
 							
 			}
 		}
@@ -115,28 +120,35 @@ public class JDBC2 {
 	}
 	
 	// this method can either be used for the insert or update
-	public static void modifyData(String requestType,String ... args) {
+	public static String[] modifyData(String requestType,String ... args) {
 		// Open the connection
 		openConnection();
 
+		String[] result =null;
+		// Check if query succesfully execute
+		int status = 0 ;
 		// Get query base on type
-		String query= getQuery(requestType);
+		String query= getQuery(requestType,args[0],args[4]);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 
 		try {
 			if (conn != null) {				
 				prepStatement = getPreparedStatement(query,args);
-				prepStatement.executeUpdate();										
+				status = prepStatement.executeUpdate();										
 			}
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return result = new String[] {"fail"};
 		}
 	
 		closeConnection();
 
+		if ( status > 0 )
+			result = new String[] {"Success"};
+		return result;
 	}
 
 }

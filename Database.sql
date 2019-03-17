@@ -11,9 +11,9 @@ create table  _User
 	(UserID				int Not Null primary key  Identity(1,1), 
 	 Fname				varchar(64) Not Null,
 	 Lname				varchar(64) Not Null,
-	 userName			varchar(64) not null unique,
+	 userName			varchar(64) not null ,
 	 _Password			varchar(64) Not Null,
-	 Email				varchar(64) Not Null,
+	 Email				varchar(64) Not Null ,
 	 _Level				int Not Null,
 	 _Exp				int Not Null
 	);
@@ -84,4 +84,9 @@ insert into  DifficultyLevel values
 	(3, 60);
 Select WordID,Word_Category.CatagoryName,WordName From Words
 	JOIN Word_Category ON Word_Category.CategoryID = Words.CategoryID;
+
+Select * from _User 
+
+delete from _User
+DBCC CHECKIDENT ('_User', RESEED, 0)
 GO
