@@ -1,14 +1,14 @@
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
+import javax.swing.JTextField;
 
 public class LoginPage {
 
@@ -22,14 +22,14 @@ public class LoginPage {
 	public static void main(String[] args) {
 		run();
 	}
-	
+
 	public static void run() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					LoginPage window = new LoginPage();
 					window.frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,84 +52,78 @@ public class LoginPage {
 		frame.setBounds(100, 100, 845, 709);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		JLabel lblNameOfThe = new JLabel("Guessing game ");
 		lblNameOfThe.setFont(new Font("Algerian", Font.PLAIN, 30));
 		lblNameOfThe.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNameOfThe);
-		
+
 		JLabel lblNewLabel = new JLabel("User Name");
 		lblNewLabel.setBounds(175, 216, 80, 35);
 		frame.getContentPane().add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setBounds(175, 283, 80, 35);
 		frame.getContentPane().add(lblNewLabel_1);
-		
+
 		JButton btnLogin = new JButton("Login");
-		
-		
-	
+
 		btnLogin.setBounds(282, 408, 97, 25);
 		frame.getContentPane().add(btnLogin);
-		
+
 		JButton btnSignUp = new JButton("Sign Up");
-		
-		
+
 		btnSignUp.setBounds(476, 408, 97, 25);
 		frame.getContentPane().add(btnSignUp);
-		
+
 		textFieldUserName = new JTextField();
 		textFieldUserName.setBounds(282, 214, 291, 38);
 		frame.getContentPane().add(textFieldUserName);
 		textFieldUserName.setColumns(10);
-		
+
 		passwordFieldSignIn = new JPasswordField();
 		passwordFieldSignIn.setBounds(282, 281, 291, 38);
 		frame.getContentPane().add(passwordFieldSignIn);
-		
+
 		JButton btnNewButton = new JButton("Home Test");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				HomePage homePage = new HomePage();
 				homePage.Home();
-				
+
 			}
 		});
 		btnNewButton.setBounds(26, 407, 99, 27);
 		frame.getContentPane().add(btnNewButton);
-		
+
 		JButton btnNewButton_1 = new JButton("Guess Test");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GuessingPage guess = new GuessingPage();
 				guess.main();
 
-				
 			}
 		});
 		btnNewButton_1.setBounds(26, 352, 99, 27);
 		frame.getContentPane().add(btnNewButton_1);
-		
-		
+
 		// Button Onlick Listener
 		// Login button event handler
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Check whether the entered username and password is correct or not
-				if(passwordChecking()) {
+				if (passwordChecking()) {
 					// Direct to home page screen
 					HomePage homePage = new HomePage();
 					homePage.Home();
 					// Close previous screen
 					frame.dispose();
-				}
-				else {
+				} else {
 					JOptionPane.showMessageDialog(null, " Incorrect username or password.\n Please try again");
 				}
 			}
 		});
-		
+
 		// Sign up button event handler
 		btnSignUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -141,20 +135,25 @@ public class LoginPage {
 			}
 		});
 	}
+
 	private boolean passwordChecking() {
 		// Variable that will determine whether the user name and password are valid or not
 		// Variables that hold username and password
 		String loginUserName = textFieldUserName.getText();
 		String loginPassword = "";
 		// Variables that hold username and password in the database
-	
-		// Retrieve password
-		char[] password = passwordFieldSignIn.getPassword();
-		// Convert char array to string
-		for(char values : password) {
-			loginPassword += values;
+		try {
+			// Retrieve password
+			char[] password = passwordFieldSignIn.getPassword();
+			// Convert char array to string
+			for (char values : password) {
+				loginPassword += values;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		//If username and password is good, returns successful.
+
+		// If username and password is good, returns successful.
 		return Client.login(loginUserName, loginPassword);
 	}
 }
