@@ -42,6 +42,10 @@ public class JDBC2 {
 			result = "SELECT userName,_XP,_LEVEL FROM _USER WHERE ? = ?";
 			break;
 		// Will continue on later
+		case "SIGN_UP":
+			result = "INSERT INTO _USER (userName,_Password,Fname,Lname,Email,_Level,_Exp) "
+					+ "VALUES(?,?,?,?,?,1,0)" ;
+			break;
 		}
 		
 		
@@ -74,7 +78,7 @@ public class JDBC2 {
 	
 
 	
-	public static ArrayList getData(String requestType,String ... args) {
+	public static String[] getData(String requestType,String ... args) {
 		// Open the connection
 		openConnection();
 
@@ -82,8 +86,8 @@ public class JDBC2 {
 		String query= getQuery(requestType);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
-		// Initialize array list
-		ArrayList<String> resultList = new ArrayList<>();
+		// Initialize array 
+		String[] resultArray = null;
 		try {
 			if (conn != null) {
 				
@@ -96,7 +100,7 @@ public class JDBC2 {
 				}
 				for( int i = 0 ; i < args.length ; i++) {
 					// Items's index will be the same as the columns in select query
-					resultList.add(rs.getString(args[i]));
+					resultArray[i] = rs.getString(args[i]);
 				}
 							
 			}
@@ -107,45 +111,36 @@ public class JDBC2 {
 		}
 	
 		closeConnection();
-		return resultList;
+		return resultArray;
 	}
+	
+	// this method can either be used for the insert or update
+	public static void modifyData(String requestType,String ... args) {
+		// Open the connection
+		openConnection();
 
-}
+		// Get query base on type
+		String query= getQuery(requestType);
+		// Initialize prepared statement
+		PreparedStatement prepStatement =null;
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*	public static String getResult(String typeOfRequest, String request) {
-String result="";
-openConnection();
-String query="SELECT * FROM _USER WHERE ? = ?";
-
-try {
-	if (conn != null) {
-		PreparedStatement prepStatement = getUserNameAndPassword(query,typeOfRequest,request);
-		ResultSet rs = prepStatement.executeQuery();
-		
-		while ( rs.next() ) {
-			result = rs.getString("ID");
+		try {
+			if (conn != null) {				
+				prepStatement = getPreparedStatement(query,args);
+				prepStatement.executeUpdate();										
+			}
 		}
-					
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		closeConnection();
+
 	}
-}
-catch (SQLException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
+
 }
 
-closeConnection();
-return result;
 
-}*/
+
+
