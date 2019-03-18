@@ -47,7 +47,7 @@ public class JDBC2 {
 					+ " BEGIN "
 					+ " INSERT INTO _USER (userName,_Password,Fname,Lname,Email,_Level,_Exp) "
 					+ " VALUES(?,?,?,?,?,1,0) END "
-					+ " ELSE BEGIN DBCC CHECKIDENT ('_User', RESEED, 1) " // problem
+					+ " ELSE BEGIN DBCC CHECKIDENT ('_User', RESEED) " // problem
 					+ "END;" ;
 			break;
 		}
