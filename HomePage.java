@@ -154,9 +154,9 @@ public class HomePage {
 		comboBoxGameMode.addItem("Drawing");
 		comboBoxGameMode.addItem("Guessing");
 		// Combo box for difficult level
-		comboBoxDifficultLevel.addItem("Easy");
+		/*comboBoxDifficultLevel.addItem("Easy");
 		comboBoxDifficultLevel.addItem("Intermediate");
-		comboBoxDifficultLevel.addItem("Hard");
+		comboBoxDifficultLevel.addItem("Hard");*/
 		// Combo box for category
 		// Get the word category from the database
 		// Set the combobox
