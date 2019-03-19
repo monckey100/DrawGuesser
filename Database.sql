@@ -30,7 +30,7 @@ create table Words(
 	 
 )
 create table DifficultyLevel
-	(DifficultyLevel		int Not Null primary key, 
+	(DifficultyLevel		nvarchar(25) Not Null primary key, 
 	 TimePeriod				int Not Null
 	);
 
@@ -38,7 +38,7 @@ create table DifficultyLevel
 create table Drawing
 	(DrawingID				int Not Null primary key Identity(1,1), 
 	 WordID					int Not Null, 
-	 DifficultyLevel		int Not Null,
+	 DifficultyLevel		nvarchar(25) Not Null,
 	 UserID					int Not Null,
 	 DrawingData            varBinary(MAX),
 
@@ -51,7 +51,7 @@ create table Drawing
 
 Create table Guess
 	(GuessingID				int Not Null primary key Identity(1,1),
-	 DifficultyLevel		int Not Null,
+	 DifficultyLevel		nvarchar(25) Not Null,
 	 DrawingID				int Not Null,
 	 UserID					int Not Null,
 	 SucceedTimes			int Not Null,
@@ -79,13 +79,13 @@ insert into  Words (CategoryID, WordName) values
 	( 3, 'Luigi'),
 	( 3, 'Sanic');
 insert into  DifficultyLevel values 
-	(1, 180),
-	(2, 120),
-	(3, 60);
+	('Easy', 180),
+	('Intermediate', 120),
+	('Hard', 60);
 Select WordID,Word_Category.CatagoryName,WordName From Words
 	JOIN Word_Category ON Word_Category.CategoryID = Words.CategoryID;
 
-Select * from _User 
+Select DifficultyLevel from DifficultyLevel 
 
 delete from _User
 DBCC CHECKIDENT ('_User', RESEED, 0)
