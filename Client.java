@@ -28,6 +28,12 @@ class Client {
 		}
 		return false;
 	}
+	
+	public static  String [] getNeededInfor(String info,String... args) {
+
+		String[] result =send(info, args);
+		return result;
+	}
 
 	// This needs difficulty + what image and whatnot.
 	public static boolean sendImage(String bytes) {
