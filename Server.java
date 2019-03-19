@@ -15,32 +15,29 @@ class Server {
 			String packet = myConn.getPackets();
 			if (packet != null) {
 				myConn.parsePacket(packet);
-				// String dbResult = jdbc.getResult(requestArray[0],requestArray[1]);
-				String[] sendInfo = null;
+				// Hold packet to send
+				String[] sendInfo = null;	
+				// Array of needed information
+				String[] neededInfo = null;
 				System.out.println("TYPE: " + myConn.getType() + " DATA: " + Arrays.toString(myConn.getData()));
 				switch (myConn.getType()) {
 				case "LOGIN":
 					// We assume getData will be {username,password}
+					
+					neededInfo = new String[] {"_Exp","_Level"};
 					try {
 						myConn.setType("LOGIN");
 						String username = myConn.getData()[0];
 						String password = myConn.getData()[1];
 						System.out.println("Username: '" + username + "' Password: '" + password + "'");
-						// sendInfo = new String[]{"Failed"};
-						sendInfo = new String[] { "Success", "1337", "1" };
+						
+						sendInfo = jdbc.getData("LOGIN",neededInfo,username,password);
+
+						//sendInfo = new String[] { "Success", "1337", "1" };
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
-					/*
-					 * if(jdbc.checkLogin(username,password)) {
-					 * sendInfo[0] = "Success";
-					 * sendInfo[1] = jdbc.getEXP(username);
-					 * sendInfo[2] = jdbc.getLevel(username);
-					 * } else {
-					 * sendInfo[0] = "Failed";
-					 * }
-					 */
+					
 					break;
 				case "SIGNUP":
 					myConn.setType("SIGNUP");
