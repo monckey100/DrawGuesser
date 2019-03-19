@@ -47,8 +47,21 @@ public class JDBC2 {
 					+ " BEGIN "
 					+ " INSERT INTO _USER (userName,_Password,Fname,Lname,Email,_Level,_Exp) "
 					+ " VALUES(?,?,?,?,?,1,0) END "
-					+ " ELSE BEGIN DBCC CHECKIDENT ('_User', RESEED) " // problem
+					+ " ELSE BEGIN DBCC CHECKIDENT ('_User', RESEED) " 
 					+ "END;" ;
+			break;
+		case "DIFFICULT_LEVEL":
+			result = "SELECT DifficultyLevel FROM DifficultyLevel";
+			break;
+		case "TIME_PERIOD":
+			result = "SELECT TimePeriod FROM DifficultyLevel WHERE DifficultyLevel = ?";
+			break;
+		case "WORD_CATEGORY":
+			result = "SELECT CatagoryName FROM Word_Category";
+			break;
+		case "USER_INFO":
+			System.out.println(Client.username+ "  TEST");
+			result = "SELECT userName,_Level,_Exp FROM _User WHERE userName= '" + Client.username+"'";
 			break;
 		}
 		
@@ -62,14 +75,14 @@ public class JDBC2 {
 
 		try {
 			if(conn !=null) {
-				prepStmt1 = conn.prepareStatement(query);
 				
-				for(int i = 0 ; i < args.length ; i++) {
-					prepStmt1.setString(i+1, args[i]);
-					
-				
-				}
-				
+				prepStmt1 = conn.prepareStatement(query,ResultSet.TYPE_SCROLL_SENSITIVE, 
+                        ResultSet.CONCUR_UPDATABLE);
+				if( args.length !=0) {
+					for(int i = 0 ; i < args.length ; i++) {
+						prepStmt1.setString(i+1, args[i]);								
+					}
+				}	
 			}
 			
 			
@@ -91,28 +104,33 @@ public class JDBC2 {
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 		// Initialize array 
-		// array length + 1 since we need the first index to indicate success or fail request
-		
-		String[] resultArray = new String[inforArray.length + 1];
+		// array length + 1 since we need the first index to indicate success or fail request		
+		String[] resultArray = null;//new String[inforArray.length + 1];
+		// Array list to temporary hold the result
+		ArrayList<String> resultList = new ArrayList<>();
 		try {
 			if (conn != null) {
 				
 				prepStatement = getPreparedStatement(query,args);
 				ResultSet rs = prepStatement.executeQuery();
 				
-				if ( rs.next() ) {
-					check =true;
-					validUserName = args[0];
-				}
-				if(check) {						
-					resultArray [0] ="Success";
-					for( int i = 1 ; i < resultArray.length ; i++) {
-						// Items's index will be the same as the columns in select query
-						resultArray[i] = rs.getString(inforArray[i-1]);
-					}
+				if ( rs.next() ) {				
+						rs.beforeFirst();
+						while(rs.next()) {				
+							for(int  i =0 ; i < inforArray.length; i++) {
+								resultList.add(rs.getString(inforArray[i]));
+
+							}
+							
+						}
+						
+					// Set successful request
+					resultList.add(0, "Success");
+					// Convert arraylist to array
+					resultArray = resultList.toArray(new String[resultList.size()])	;
 				}
 				else
-					resultArray[0] = "Fail";
+					resultArray = new String[] {"Fail"};
 							
 			}
 		}
@@ -123,6 +141,7 @@ public class JDBC2 {
 	
 		closeConnection();
 		return resultArray;
+		
 	}
 	
 	// this method can either be used for the insert or update
