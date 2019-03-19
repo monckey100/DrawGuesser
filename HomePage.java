@@ -21,12 +21,14 @@ public class HomePage {
 
 	/**
 	 * Launch the application.
+	 * @wbp.parser.entryPoint
 	 */
 	public static void Home() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					HomePage window = new HomePage();
+					HomePage window = new HomePage();		
+					window.initialize();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,11 +40,7 @@ public class HomePage {
 	/**
 	 * Create the application.
 	 */
-	public HomePage() {
-		initialize();
-		InitializeComboBox();
-		DisplayUsersInformation();
-	}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -59,15 +57,15 @@ public class HomePage {
 		frame.getContentPane().add(lblNewLabel);
 		
 		lblUserName = new JLabel("User Name here");
-		lblUserName.setBounds(12, 61, 115, 16);
+		lblUserName.setBounds(12, 61, 254, 16);
 		frame.getContentPane().add(lblUserName);
 		
 		lblLevel = new JLabel("Their current level");
-		lblLevel.setBounds(12, 90, 153, 16);
+		lblLevel.setBounds(12, 90, 254, 16);
 		frame.getContentPane().add(lblLevel);
 		
 		lblXP = new JLabel("Their current Xp");
-		lblXP.setBounds(12, 119, 99, 16);
+		lblXP.setBounds(12, 119, 254, 16);
 		frame.getContentPane().add(lblXP);
 		
 		comboBoxGameMode = new JComboBox();
@@ -148,15 +146,31 @@ public class HomePage {
 				frame.dispose();
 			}
 		});
+		
+		InitializeComboBox();
+		
+		DisplayUsersInformation();
 	}
 	private void InitializeComboBox() {
+		String[] difficultMode= Client.getNeededInfor("DIFFICULT_LEVEL");
+		// Get combobox selection to determine time period
+		String[] timePeriod = Client.getNeededInfor("TIME_PERIOD", "Hard");
+		// Get word category name
+		String[] wordCategory = Client.getNeededInfor("WORD_CATEGORY");
 		// Combo box for game mode
 		comboBoxGameMode.addItem("Drawing");
 		comboBoxGameMode.addItem("Guessing");
 		// Combo box for difficult level
-		/*comboBoxDifficultLevel.addItem("Easy");
-		comboBoxDifficultLevel.addItem("Intermediate");
-		comboBoxDifficultLevel.addItem("Hard");*/
+
+		for ( int i = 1 ; i < difficultMode.length; i++) {
+			comboBoxDifficultLevel.addItem(difficultMode[i]);
+		}
+		// Just to test retrieved time period from the db
+		System.out.println("This is the current time period:  "+timePeriod[1]);
+		
+		for( int i = 1; i < wordCategory.length ; i++) {
+			comboBoxCategory.addItem(wordCategory[i]);
+		}
 		// Combo box for category
 		// Get the word category from the database
 		// Set the combobox
@@ -168,15 +182,13 @@ public class HomePage {
 	
 	private void DisplayUsersInformation() {
 		// Variables that will hold user's username, level and xp
-		String userName="";
-		int userLevel = 0, userXP = 0;
+		String[] userInfor = Client.getNeededInfor("USER_INFO");
 		// Get information from the database
 		//
-		
-		
+	//	System.out.print(userInfor[1]);
 		// Display user's information
-		lblUserName.setText("Name:" +userName);
-		lblLevel.setText("Current level: " +userLevel+"");
-		lblXP.setText("Current Xp: "+userXP+"");
+		lblUserName.setText("Name: " );//+userInfor[1]);
+		lblLevel.setText("Current level: ");//+userInfor[2]);
+		lblXP.setText("Current Xp: ");//+userInfor[3]);
 	}
 }

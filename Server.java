@@ -44,6 +44,26 @@ class Server {
 					sendInfo = jdbc.modifyData("SIGNUP", myConn.getData());
 				//	sendInfo = new String[] { "Failed" };
 					break;
+				case "DIFFICULT_LEVEL":
+					neededInfo = new String[] {"DifficultyLevel"};
+					myConn.setType("DIFFICULT_LEVEL");
+					sendInfo = jdbc.getData("DIFFICULT_LEVEL", neededInfo);
+					break;
+				case "TIME_PERIOD":
+					neededInfo = new String[] {"TimePeriod"};
+					myConn.setType("TIME_PERIOD");
+					sendInfo = jdbc.getData("TIME_PERIOD", neededInfo, myConn.getData());
+					break;
+				case "WORD_CATEGORY":
+					neededInfo = new String[] {"CatagoryName"};
+					myConn.setType("WORD_CATEGORY");
+					sendInfo = jdbc.getData("WORD_CATEGORY",neededInfo);
+					break;
+				case "USER_INFO":
+					neededInfo = new String[] {"userName","_Level","_Exp"};
+					myConn.setType("USER_INFO");
+					sendInfo = jdbc.getData("USER_INFO", neededInfo);
+					break;
 				case "IMAGESEND":
 					myConn.setType("IMAGESEND");
 					sendInfo = new String[] { "Failed" };
