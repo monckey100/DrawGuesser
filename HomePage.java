@@ -185,10 +185,10 @@ public class HomePage {
 		String[] userInfor = Client.getNeededInfor("USER_INFO");
 		// Get information from the database
 		//
-	//	System.out.print(userInfor[1]);
+		//System.out.print(userInfor[1]);
 		// Display user's information
-		lblUserName.setText("Name: " );//+userInfor[1]);
-		lblLevel.setText("Current level: ");//+userInfor[2]);
-		lblXP.setText("Current Xp: ");//+userInfor[3]);
+		lblUserName.setText("Name: " +userInfor[1]);
+		lblLevel.setText("Current level: "+userInfor[2]);
+		lblXP.setText("Current Xp: "+userInfor[3]);
 	}
 }

@@ -85,7 +85,7 @@ insert into  DifficultyLevel values
 Select WordID,Word_Category.CatagoryName,WordName From Words
 	JOIN Word_Category ON Word_Category.CategoryID = Words.CategoryID;
 
-Select DifficultyLevel from DifficultyLevel 
+Select * from _User 
 
 delete from _User
 DBCC CHECKIDENT ('_User', RESEED, 0)
