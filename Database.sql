@@ -5,13 +5,17 @@ GO
 CREATE DATABASE DrawGuesser;
 GO
 
+ 
+
 use DrawGuesser;
+
+use jspweb;
 
 create table  _User
 	(UserID				int Not Null primary key  Identity(1,1), 
 	 Fname				varchar(64) Not Null,
 	 Lname				varchar(64) Not Null,
-	 userName			varchar(64) not null ,
+	 userName			varchar(64) not null unique,
 	 _Password			varchar(64) Not Null,
 	 Email				varchar(64) Not Null ,
 	 _Level				int Not Null,
@@ -90,3 +94,27 @@ Select DifficultyLevel from DifficultyLevel
 delete from _User
 DBCC CHECKIDENT ('_User', RESEED, 0)
 GO
+
+Select	*
+From _User 
+
+
+Select * 
+from _User
+Where userName ='A' ;
+
+insert into _User 
+values('bbbb','bbb','bbb','bbb','bbb',1,1);
+
+
+Drop table _User, Word_Category,Words,Drawing,Guess,DifficultyLevel
+
+
+USE [jspweb]
+GO
+/****** Object:  Table [dbo].[_User]    Script Date: 2019-03-19 9:35:09 PM ******/
+DROP TABLE [dbo].[_User]
+GO
+
+
+ALTER TABLE [dbo].[_User] DROP CONSTRAINT [PK___User__1788CCAC10C937E4]
