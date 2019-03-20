@@ -40,6 +40,7 @@ public class JDBC2 {
 		switch(requestType) {
 		case "LOGIN":
 			result = "SELECT _Exp,_Level FROM _User WHERE userName = ? AND _Password = ?";
+			Client.username = args[0];
 			break;
 
 		case "SIGNUP":
@@ -100,7 +101,7 @@ public class JDBC2 {
 		openConnection();
 
 		// Get query base on type, userNAme and email must be unique
-		String query= getQuery(requestType);
+		String query= getQuery(requestType,args);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 		// Initialize array 
@@ -128,6 +129,7 @@ public class JDBC2 {
 					resultList.add(0, "Success");
 					// Convert arraylist to array
 					resultArray = resultList.toArray(new String[resultList.size()])	;
+					
 				}
 				else
 					resultArray = new String[] {"Fail"};
