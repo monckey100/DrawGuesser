@@ -21,9 +21,12 @@ class Server {
 				String[] neededInfo = null;
 				System.out.println("TYPE: " + myConn.getType() + " DATA: " + Arrays.toString(myConn.getData()));
 				switch (myConn.getType()) {
+				/*
+				  LoginPage.Java -- Client should store UserID
+				*/
 				case "LOGIN":
-					// We assume getData will be {username,password}
-					
+					// Client: { username, password }
+					// Server: { "Success", "userID" }
 					neededInfo = new String[] {"_Exp","_Level"};
 					try {
 						myConn.setType("LOGIN");
@@ -31,6 +34,7 @@ class Server {
 						String password = myConn.getData()[1];
 						System.out.println("Username: '" + username + "' Password: '" + password + "'");
 						
+						//{"Success"}
 						sendInfo = jdbc.getData("LOGIN",neededInfo,username,password);
 
 						//sendInfo = new String[] { "Success", "1337", "1" };
@@ -41,33 +45,83 @@ class Server {
 					break;
 				case "SIGNUP":
 					myConn.setType("SIGNUP");
+					//Client: { username, password, firstname, lastname, email }
+					//Server: {"Success","userID"}
 					sendInfo = jdbc.modifyData("SIGNUP", myConn.getData());
-				//	sendInfo = new String[] { "Failed" };
 					break;
+				/*
+				 	Client picks Difficulty / Word Category.
+				 	Difficulty level + Word Category is asked so client
+				 	can populate choices.
+				 	
+				 	client picks both difficulty level + category then asks
+				 	for the time period.
+				 	
+				 	This is used for both Drawing + Guessing.
+				 */
 				case "DIFFICULT_LEVEL":
+					//GET DIFFICULTY LEVELS AVAILABLE
+					// Client: {userID}
+					// Server: {Difficulty 1, Difficulty 2, Difficulty 3....}
 					neededInfo = new String[] {"DifficultyLevel"};
 					myConn.setType("DIFFICULT_LEVEL");
 					sendInfo = jdbc.getData("DIFFICULT_LEVEL", neededInfo);
 					break;
+				case "WORD_CATEGORY":
+					//Client: {userID,difficulty}
+					//Server: {[Category ID 1, Category Name 1, [Category ID 2,Category Name 2].....}
+					neededInfo = new String[] {"CatagoryName"};
+					myConn.setType("WORD_CATEGORY");
+					sendInfo = jdbc.getData("WORD_CATEGORY",neededInfo);
+					break;		
+				/*
+				  This is used to get Time for both drawing + guessing	
+				 */
 				case "TIME_PERIOD":
+					//Send back time_period AND word, depend on client receiving WORD_CATEGORY
+					//Client: {userID,difficulty,Category_ID}
+					//Server: {time_period,[word_id,word]}
 					neededInfo = new String[] {"TimePeriod"};
 					myConn.setType("TIME_PERIOD");
 					sendInfo = jdbc.getData("TIME_PERIOD", neededInfo, myConn.getData());
 					break;
-				case "WORD_CATEGORY":
-					neededInfo = new String[] {"CatagoryName"};
-					myConn.setType("WORD_CATEGORY");
-					sendInfo = jdbc.getData("WORD_CATEGORY",neededInfo);
+				/*
+				 	Client ran out of time or sent the image, we store the image,
+				 	who made the image and return success/fail.
+				 	
+				 	Here the image is stored into Drawing table, for word we will
+				 	need to get word by ID based on word.
+				*/
+				case "IMAGESEND":
+					//Client: {userID,word_id,difficulty,image_data}
+					//Server: {Successful}
+					myConn.setType("IMAGESEND");
+					sendInfo = new String[] { "Failed" };
+				break;
+				case "IMAGEGUESS":
+					//Client: {userID,word_id,difficulty}
+					//Server: {wordID,drawingID,drawingData}
 					break;
+				case "SENDGUESS":
+					 /*
+					 	Client either keeps guessing if time is left or moves on if correct.
+					 	
+					 	If Correct, Server will give EXP/Level to drawer and guesser.
+					 */
+					//Client: {userID,drawingID,timeleft}
+					//Server: {"Correct"/"Incorrect"} 
+				break;
 				case "USER_INFO":
+					/*
+					  Client will ask for USER_INFO after every game finished.
+					 */
+					//Client: {userID}
+					//Server: {level, EXP}
 					neededInfo = new String[] {"userName","_Level","_Exp"};
 					myConn.setType("USER_INFO");
 					sendInfo = jdbc.getData("USER_INFO", neededInfo);
 					break;
-				case "IMAGESEND":
-					myConn.setType("IMAGESEND");
-					sendInfo = new String[] { "Failed" };
-					break;
+
 				default:
 					myConn.setType("ERROR");
 					myConn.setData(new String[] { "Error: Could not find Datatype!" });
