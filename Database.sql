@@ -9,7 +9,7 @@ GO
 
 use DrawGuesser;
 
-use jspweb;
+
 
 create table  _User
 	(UserID				int Not Null primary key  Identity(1,1), 
@@ -96,25 +96,21 @@ DBCC CHECKIDENT ('_User', RESEED, 0)
 GO
 
 Select	*
-From _User 
+
+From Words
+
+ORDER BY NEWID()
+ 
 
 
-Select * 
-from _User
-Where userName ='A' ;
+--Select * 
+--from _User
+--Where userName ='A' ;
 
-insert into _User 
-values('bbbb','bbb','bbb','bbb','bbb',1,1);
-
-
-Drop table _User, Word_Category,Words,Drawing,Guess,DifficultyLevel
+--insert into _User 
+--values('bbbb','bbb','bbb','bbb','bbb',1,1);
 
 
-USE [jspweb]
-GO
-/****** Object:  Table [dbo].[_User]    Script Date: 2019-03-19 9:35:09 PM ******/
-DROP TABLE [dbo].[_User]
-GO
+--Drop table _User, Word_Category,Words,Drawing,Guess,DifficultyLevel
 
 
-ALTER TABLE [dbo].[_User] DROP CONSTRAINT [PK___User__1788CCAC10C937E4]
