@@ -29,6 +29,41 @@ class Client {
 		return false;
 	}
 	
+	
+	public static boolean time_period(String userID,String difficulty,String Category_ID)
+	{
+		String[] result = send("TIME_PERIOD", new String[] { userID, difficulty, Category_ID});
+		if (result[0].equals("Success")) {
+	
+			return true;
+		}
+		return false;		
+	}
+	
+	public static boolean imagesend(String userID,String word_id,String difficulty,String image_data)
+	{
+		String[] result = send("IMAGESEND", new String[] { userID, word_id, difficulty,image_data});
+		if (result[0].equals("Success")) {
+	
+			return true;
+		}
+		return false;		
+	}
+	
+	
+	public static boolean sendguess(String userID,String drawingID,String timeleft)
+	{
+		String[] result = send("SENDGUESS", new String[] { userID, drawingID, timeleft});
+		if (result[0].equals("Success")) {
+	
+			return true;
+		}
+		return false;		
+	}
+	
+	
+	
+	
 	public static  String [] getNeededInfor(String info,String... args) {
 
 		String[] result =send(info, args);
