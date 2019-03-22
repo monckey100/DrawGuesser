@@ -14,7 +14,7 @@ class Client {
 		String[] result = send("LOGIN", new String[] { username, password });
 		if (result[0].equals("Success")) {
 			// set clients uesrname.
-		//	Client.username = username;
+			Client.username = username;
 			return true;
 		}
 		return false;
