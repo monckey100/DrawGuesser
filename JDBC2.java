@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class JDBC2 {
 
@@ -64,7 +65,16 @@ public class JDBC2 {
 			System.out.println(Client.username+ "  TEST");
 			result = "SELECT userName,_Level,_Exp FROM _User WHERE userName= '" + Client.username+"'";
 			break;
+			// Get word for the guessing mode, get randomly from db
+		case "GET_WORD":
+			result = "SELECT WordName "
+					+ "FROM Words join Word_Category on Words.CategoryID = Word_Category.CategoryID"
+					+ "WHERE CategoryName = ?"
+					+ "ORDER BY NEWID()";
+					
+			break;
 		}
+		
 		
 		
 		
@@ -134,7 +144,7 @@ public class JDBC2 {
 				else
 					resultArray = new String[] {"Fail"};
 							
-			}
+			}	
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -177,6 +187,9 @@ public class JDBC2 {
 			result = new String[] {"Success"};
 		return result;
 	}
+	
+	
+
 
 }
 
