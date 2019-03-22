@@ -60,6 +60,8 @@ class Client {
 		myConn.closeConnection();
 		return myConn.getData();
 	}
+	
+
 }
 
 class clientConnection {
