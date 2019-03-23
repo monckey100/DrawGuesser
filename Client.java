@@ -30,9 +30,9 @@ class Client {
 	}
 	
 	
-	public static boolean time_period(String userID,String difficulty,String Category_ID)
+	public static boolean time_period(String difficulty)
 	{
-		String[] result = send("TIME_PERIOD", new String[] { userID, difficulty, Category_ID});
+		String[] result = send("TIME_PERIOD", new String[] { difficulty});
 		if (result[0].equals("Success")) {
 	
 			return true;

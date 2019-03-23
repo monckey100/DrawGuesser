@@ -18,8 +18,12 @@ import java.awt.event.MouseAdapter;
 public class GuessingPage {
 
 	private JFrame frame;
+	private JLabel lblUserName;
+	private JLabel lblLevel;
+	private JLabel lblXP;
 	private JTextField textFieldGuessing;
-
+	String[] timePeriod;
+	public int time;
 	/**
 	 * Launch the application.
 	 */
@@ -41,6 +45,14 @@ public class GuessingPage {
 	 */
 	public GuessingPage() {
 		initialize();
+	}
+	
+	public GuessingPage(String diffLevel) {
+		timePeriod = Client.getNeededInfor("TIME_PERIOD", diffLevel);
+		time = Integer.parseInt(timePeriod[1]);
+		initialize();
+		
+		
 	}
 
 	/**
@@ -68,26 +80,27 @@ public class GuessingPage {
 		lblNameHere.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNameHere);
 		
-		JLabel labelUserName = new JLabel("User Name here");
-		labelUserName.setBounds(12, 76, 115, 16);
-		frame.getContentPane().add(labelUserName);
+		lblUserName = new JLabel("User Name here");
+		lblUserName.setBounds(12, 76, 115, 16);
+		frame.getContentPane().add(lblUserName);
 		
-		JLabel labelLevel = new JLabel("Their current level");
-		labelLevel.setBounds(12, 105, 153, 16);
-		frame.getContentPane().add(labelLevel);
+		lblLevel = new JLabel("Their current level");
+		lblLevel.setBounds(12, 105, 153, 16);
+		frame.getContentPane().add(lblLevel);
 		
-		JLabel labelXP = new JLabel("Their current Xp");
-		labelXP.setBounds(12, 134, 99, 16);
-		frame.getContentPane().add(labelXP);
-		
+		lblXP = new JLabel("Their current Xp");
+		lblXP.setBounds(12, 134, 99, 16);
+		frame.getContentPane().add(lblXP);
+		DisplayUsersInformation();
 		JLabel Countdown = new JLabel("Ready?");
 		Countdown.setBounds(22, 163, 111, 33);
 		frame.getContentPane().add(Countdown);
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
+						
 			Timer t;
-	    	int sec =5;
+	    	int sec =time;
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseEntered(MouseEvent e) {
 	    		t =new Timer(1000,new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
@@ -115,5 +128,21 @@ public class GuessingPage {
 		
 		
 	}
+	private void DisplayUsersInformation() {
+		// Variables that will hold user's username, level and xp
+		String[] userInfor = Client.getNeededInfor("USER_INFO");
+		// Get information from the database
+		//
+		//System.out.print(userInfor[2]);
+		//System.out.print(userInfor[3]);
+		// Display user's information
+		lblUserName.setText("Name: " +userInfor[1]);
+		lblLevel.setText("Current level: "+userInfor[2]);
+		lblXP.setText("Current Xp: "+userInfor[3]);
+		
+		
+
+	}
+
 
 }

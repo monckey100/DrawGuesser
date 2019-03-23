@@ -116,7 +116,7 @@ public class HomePage {
 				// After that navigate to appropriate mode
 
 				
-				/*if(gameMode.equals("Drawing")) {
+				if(gameMode.equals("Drawing")) {
 					
 					
 					
@@ -125,16 +125,18 @@ public class HomePage {
 					
 					// Will do at the end
 					DrawingPage draw = new DrawingPage();
-					draw.main();
+					draw.main(null);
 				}
 				else {
 					
 					
 					
 					
-					GuessingPage guess = new GuessingPage();
+					GuessingPage guess = new GuessingPage(diffLevel);
 					guess.main();
-				}*/
+					
+					
+				}
 				
 			}
 		});
@@ -190,5 +192,6 @@ public class HomePage {
 		lblUserName.setText("Name: " +userInfor[1]);
 		lblLevel.setText("Current level: "+userInfor[2]);
 		lblXP.setText("Current Xp: "+userInfor[3]);
+
 	}
 }
