@@ -18,6 +18,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
     public class DrawingPage{
+    	 static int time;
         public static void main(String[] args){     
 
     JFrame frame = new JFrame("Draw Something");    
@@ -145,7 +146,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     
     drawPad.addMouseListener(new MouseAdapter() {
     	Timer t;
-    	int sec =5;
+    	int sec =time;
     	@Override
     	public void mousePressed(MouseEvent e) {
     		t =new Timer(1000,new ActionListener() {
@@ -229,6 +230,30 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     frame.setVisible(true);
 
 }
+        public DrawingPage(String diffLevel) {
+    		getClass() ;
+    		getTime(diffLevel);		
+    	  		
+    		
+    	}
+        
+        public void getTime(String diffLevel)
+    	{
+    		switch(diffLevel)
+    		{
+    		case "Easy" :
+    			time =180;
+    			break;
+    		case "Hard" :
+    			time =60;
+    			break;
+    		case "Intermediate" :
+    			time =120;
+    			break;
+    		
+    		
+    		}
+    	}
 }
 
 
@@ -365,4 +390,6 @@ public void ByteToImage(String bytes, String filename) {
 		e.printStackTrace();
 	}
 }
+
+
 }

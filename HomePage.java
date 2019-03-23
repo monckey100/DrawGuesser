@@ -124,7 +124,7 @@ public class HomePage {
 					
 					
 					// Will do at the end
-					DrawingPage draw = new DrawingPage();
+					DrawingPage draw = new DrawingPage(diffLevel);
 					draw.main(null);
 				}
 				else {

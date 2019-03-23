@@ -24,7 +24,6 @@ public class GuessingPage {
 	private JLabel lblLevel;
 	private JLabel lblXP;
 	private JTextField textFieldGuessing;
-	String[] timePeriod;
 	public int time;
 	/**
 	 * Launch the application.
@@ -51,9 +50,7 @@ public class GuessingPage {
 	
 	public GuessingPage(String diffLevel) {
 		getClass() ;
-		timePeriod = Client.getNeededInfor("TIME_PERIOD", diffLevel);
-				
-		System.out.println(timePeriod[1]);
+		getTime(diffLevel);		
 		initialize();
 		
 		
@@ -103,7 +100,7 @@ public class GuessingPage {
 					
 			
 			Timer t;
-	    	int sec =180;
+	    	int sec =time;
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				frame.getContentPane().removeMouseListener(this);
@@ -145,6 +142,23 @@ public class GuessingPage {
 		
 		
 
+	}
+	public void getTime(String diffLevel)
+	{
+		switch(diffLevel)
+		{
+		case "Easy" :
+			time =180;
+			break;
+		case "Hard" :
+			time =60;
+			break;
+		case "Intermediate" :
+			time =120;
+			break;
+		
+		
+		}
 	}
 
 
