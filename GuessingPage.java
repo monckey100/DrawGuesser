@@ -3,13 +3,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.Timer;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -48,8 +50,10 @@ public class GuessingPage {
 	}
 	
 	public GuessingPage(String diffLevel) {
+		getClass() ;
 		timePeriod = Client.getNeededInfor("TIME_PERIOD", diffLevel);
-		time = Integer.parseInt(timePeriod[1]);
+				
+		System.out.println(timePeriod[1]);
 		initialize();
 		
 		
@@ -96,32 +100,31 @@ public class GuessingPage {
 		Countdown.setBounds(22, 163, 111, 33);
 		frame.getContentPane().add(Countdown);
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
-						
+					
+			
 			Timer t;
-	    	int sec =time;
+	    	int sec =180;
 			@Override
 			public void mouseEntered(MouseEvent e) {
-	    		t =new Timer(1000,new ActionListener() {
+				frame.getContentPane().removeMouseListener(this);
+	    		t =new Timer();
+	    		t.scheduleAtFixedRate(new TimerTask() {
+					int i = 180;
 					@Override
-					public void actionPerformed(ActionEvent arg0) {
+					public void run() {
 						Countdown.setForeground(Color.RED);
-						if(sec<1)
-						{
-							JOptionPane.showMessageDialog(null, "Times up");
-							t.stop();
-							Countdown.setText("Times Over");
-							textFieldGuessing.disable();
-				
-						}else
-						{
-							sec--;
-							Countdown.setText(" "+sec);
-						}										
+						Countdown.setText(""+(i--));
+						 if(i<0)
+						 {
+							 
+							 t.cancel();
+							 JOptionPane.showMessageDialog(null, "Times up");
+							 Countdown.setText("Times Over");
+							 textFieldGuessing.disable();
+						 }
 					}
-					
-	    		});
-	    		frame.getContentPane().removeMouseListener(this);
-	    		t.start();
+				}, 0, 1000);
+	    		
 	    		
 	    	}
 		});
