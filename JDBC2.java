@@ -93,7 +93,7 @@ public class JDBC2 {
 					+ " select @first, @second, @third, @fourth";*/
 			
 			result = "INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
-								+ " VALUES (?,?,?,cast(? as nvarchar(max)),4) ";
+								+ " VALUES (?,?,?,cast(? as nvarchar(max))) ";
 			break;
 		}
 		

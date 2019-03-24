@@ -3,13 +3,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.Timer;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -18,8 +20,11 @@ import java.awt.event.MouseAdapter;
 public class GuessingPage {
 
 	private JFrame frame;
+	private JLabel lblUserName;
+	private JLabel lblLevel;
+	private JLabel lblXP;
 	private JTextField textFieldGuessing;
-
+	public int time;
 	/**
 	 * Launch the application.
 	 */
@@ -41,6 +46,14 @@ public class GuessingPage {
 	 */
 	public GuessingPage() {
 		initialize();
+	}
+	
+	public GuessingPage(String diffLevel) {
+		getClass() ;
+		getTime(diffLevel);		
+		initialize();
+		
+		
 	}
 
 	/**
@@ -68,52 +81,85 @@ public class GuessingPage {
 		lblNameHere.setBounds(286, 13, 300, 66);
 		frame.getContentPane().add(lblNameHere);
 		
-		JLabel labelUserName = new JLabel("User Name here");
-		labelUserName.setBounds(12, 76, 115, 16);
-		frame.getContentPane().add(labelUserName);
+		lblUserName = new JLabel("User Name here");
+		lblUserName.setBounds(12, 76, 115, 16);
+		frame.getContentPane().add(lblUserName);
 		
-		JLabel labelLevel = new JLabel("Their current level");
-		labelLevel.setBounds(12, 105, 153, 16);
-		frame.getContentPane().add(labelLevel);
+		lblLevel = new JLabel("Their current level");
+		lblLevel.setBounds(12, 105, 153, 16);
+		frame.getContentPane().add(lblLevel);
 		
-		JLabel labelXP = new JLabel("Their current Xp");
-		labelXP.setBounds(12, 134, 99, 16);
-		frame.getContentPane().add(labelXP);
-		
+		lblXP = new JLabel("Their current Xp");
+		lblXP.setBounds(12, 134, 99, 16);
+		frame.getContentPane().add(lblXP);
+		DisplayUsersInformation();
 		JLabel Countdown = new JLabel("Ready?");
 		Countdown.setBounds(22, 163, 111, 33);
 		frame.getContentPane().add(Countdown);
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
-			Timer t;
-	    	int sec =5;
-			@Override
-			public void mouseClicked(MouseEvent e) {
-	    		t =new Timer(1000,new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						Countdown.setForeground(Color.RED);
-						if(sec<1)
-						{
-							JOptionPane.showMessageDialog(null, "Times up");
-							t.stop();
-							Countdown.setText("Times Over");
-							textFieldGuessing.disable();
-				
-						}else
-						{
-							sec--;
-							Countdown.setText(" "+sec);
-						}										
-					}
 					
-	    		});
-	    		frame.getContentPane().removeMouseListener(this);
-	    		t.start();
+			
+			Timer t;
+	    	int sec =time;
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				frame.getContentPane().removeMouseListener(this);
+	    		t =new Timer();
+	    		t.scheduleAtFixedRate(new TimerTask() {
+					int i = 180;
+					@Override
+					public void run() {
+						Countdown.setForeground(Color.RED);
+						Countdown.setText(""+(i--));
+						 if(i<0)
+						 {
+							 
+							 t.cancel();
+							 JOptionPane.showMessageDialog(null, "Times up");
+							 Countdown.setText("Times Over");
+							 textFieldGuessing.disable();
+						 }
+					}
+				}, 0, 1000);
+	    		
 	    		
 	    	}
 		});
 		
 		
 	}
+	private void DisplayUsersInformation() {
+		// Variables that will hold user's username, level and xp
+		String[] userInfor = Client.getNeededInfor("USER_INFO");
+		// Get information from the database
+		//
+		//System.out.print(userInfor[2]);
+		//System.out.print(userInfor[3]);
+		// Display user's information
+		lblUserName.setText("Name: " +userInfor[1]);
+		lblLevel.setText("Current level: "+userInfor[2]);
+		lblXP.setText("Current Xp: "+userInfor[3]);
+		
+		
+
+	}
+	public void getTime(String diffLevel)
+	{
+		switch(diffLevel)
+		{
+		case "Easy" :
+			time =180;
+			break;
+		case "Hard" :
+			time =60;
+			break;
+		case "Intermediate" :
+			time =120;
+			break;
+		
+		
+		}
+	}
+
 
 }

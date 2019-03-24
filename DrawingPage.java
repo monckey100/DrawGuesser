@@ -18,12 +18,16 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
     public class DrawingPage{
+//<<<<<<< HEAD
         // Get random word from the database 
     	public static String[] wordArray () {
     		  String[] word= Client.getNeededInfor("GET_WORD", HomePage.categoryName);
     		  return word;
     	}
        
+//=======
+    	 static int time;
+//>>>>>>> 27a0f3107605bb496b932a20eb80312bb8785ad2
         public static void main(String[] args){     
 
     JFrame frame = new JFrame("Draw Something");    
@@ -149,7 +153,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     
     drawPad.addMouseListener(new MouseAdapter() {
     	Timer t;
-    	int sec =5;
+    	int sec =time;
     	@Override
     	public void mousePressed(MouseEvent e) {
     		t =new Timer(1000,new ActionListener() {
@@ -232,6 +236,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
     frame.setVisible(true);
 
+//<<<<<<< HEAD
     String[] q = wordArray();
     // Display it out
     lblTopic.setText("Topic: "+ q[1]);
@@ -244,6 +249,34 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
         
         
         
+//=======
+
+
+        public DrawingPage(String diffLevel) {
+    		getClass() ;
+    		getTime(diffLevel);		
+    	  		
+    		
+    	}
+        
+        public void getTime(String diffLevel)
+    	{
+    		switch(diffLevel)
+    		{
+    		case "Easy" :
+    			time =180;
+    			break;
+    		case "Hard" :
+    			time =60;
+    			break;
+    		case "Intermediate" :
+    			time =120;
+    			break;
+    		
+    		
+    		}
+    	}
+//>>>>>>> 27a0f3107605bb496b932a20eb80312bb8785ad2
 }
 
 
@@ -392,4 +425,6 @@ public void ByteToImage(String bytes, String filename) {
 		e.printStackTrace();
 	}
 }
+
+
 }

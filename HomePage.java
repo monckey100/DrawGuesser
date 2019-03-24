@@ -111,7 +111,7 @@ public class HomePage {
 				String gameMode = comboBoxGameMode.getSelectedItem().toString();
 				difficultLevel = comboBoxDifficultLevel.getSelectedItem().toString();
 				categoryName = comboBoxCategory.getSelectedItem().toString();
-				DrawingPage draw = new DrawingPage();
+				DrawingPage draw = new DrawingPage("sthg");
 				draw.main(new String[] {"sthg"});
 				frame.dispose();
 				// Send the request to the server with these key words
@@ -121,6 +121,7 @@ public class HomePage {
 				// After that navigate to appropriate mode
 
 				
+				// Dont uncomment this until we have image store successfully in the db
 				/*if(gameMode.equals("Drawing")) {
 					
 					
@@ -129,16 +130,18 @@ public class HomePage {
 					
 					
 					// Will do at the end
-					DrawingPage draw = new DrawingPage();
-					draw.main();
+					DrawingPage draw = new DrawingPage(diffLevel);
+					draw.main(null);
 				}
 				else {
 					
 					
 					
 					
-					GuessingPage guess = new GuessingPage();
+					GuessingPage guess = new GuessingPage(diffLevel);
 					guess.main();
+					
+					
 				}*/
 				
 			}
@@ -192,8 +195,15 @@ public class HomePage {
 		//
 		//System.out.print(userInfor[1]);
 		// Display user's information
+//<<<<<<< HEAD
 		lblUserName.setText("Name: " +userInfor[2]);
 		lblLevel.setText("Current level: "+userInfor[3]);
 		lblXP.setText("Current Xp: "+userInfor[4]);
+/*=======
+		lblUserName.setText("Name: " +userInfor[1]);
+		lblLevel.setText("Current level: "+userInfor[2]);
+		lblXP.setText("Current Xp: "+userInfor[3]);
+
+>>>>>>> 27a0f3107605bb496b932a20eb80312bb8785ad2*/
 	}
 }
