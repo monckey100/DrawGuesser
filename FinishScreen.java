@@ -35,6 +35,7 @@ public class FinishScreen {
 	 */
 	public FinishScreen() {
 		initialize();
+		DisplayUsersInformation();
 	}
 
 	/**
