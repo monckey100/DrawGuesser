@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.util.Arrays;
 
 class Server {
+	public static String userID;
 	public static void main(String args[]) throws Exception {
 		connectionHandler myConn = new connectionHandler();
 		// Open connection to the database
@@ -27,7 +28,7 @@ class Server {
 				case "LOGIN":
 					// Client: { username, password }
 					// Server: { "Success", "userID" }
-					neededInfo = new String[] {"_Exp","_Level"};
+					neededInfo = new String[] {"UserID"};
 					try {
 						myConn.setType("LOGIN");
 						String username = myConn.getData()[0];
@@ -36,7 +37,7 @@ class Server {
 						
 						//{"Success"}
 						sendInfo = jdbc.getData("LOGIN",neededInfo,username,password);
-
+	
 						//sendInfo = new String[] { "Success", "1337", "1" };
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -92,11 +93,17 @@ class Server {
 				 	Here the image is stored into Drawing table, for word we will
 				 	need to get word by ID based on word.
 				*/
+				case "GET_WORD":
+				neededInfo = new String[] {"WordName","WordID"};
+				myConn.setType("GET_WORD");
+				sendInfo = jdbc.getData("GET_WORD", neededInfo, myConn.getData());
+				break;
 				case "IMAGESEND":
 					//Client: {userID,word_id,difficulty,image_data}
 					//Server: {Successful}
 					myConn.setType("IMAGESEND");
-					sendInfo = new String[] { "Failed" };
+				
+					sendInfo = jdbc.modifyData("IMAGESEND", myConn.getData());
 				break;
 				case "IMAGEGUESS":
 					//Client: {userID,word_id,difficulty}
@@ -117,9 +124,10 @@ class Server {
 					 */
 					//Client: {userID}
 					//Server: {level, EXP}
-					neededInfo = new String[] {"userName","_Level","_Exp"};
+					neededInfo = new String[] {"userID","userName","_Level","_Exp"};
 					myConn.setType("USER_INFO");
 					sendInfo = jdbc.getData("USER_INFO", neededInfo);
+					
 					break;
 
 				default:

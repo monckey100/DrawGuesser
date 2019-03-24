@@ -40,14 +40,16 @@ public class JDBC2 {
 		String result = "";
 		switch(requestType) {
 		case "LOGIN":
-			result = "SELECT _Exp,_Level FROM _User WHERE userName = ? AND _Password = ?";
+			result = "SELECT UserID FROM _User WHERE userName = ? AND _Password = ?";
+			// Keep a record of the username
 			Client.username = args[0];
+			
 			break;
 
 		case "SIGNUP":
 			result =  "IF NOT EXISTS ( SELECT * FROM _User WHERE Email = '" +args[0]+"' OR userName = '"+ args[1]+"' ) "
 					+ " BEGIN "
-					+ " INSERT INTO _USER (userName,_Password,Fname,Lname,Email,_Level,_Exp) "
+					+ " INSERT INTO _USER (userName,Email,_Password,Fname,Lname,_Level,_Exp) "
 					+ " VALUES(?,?,?,?,?,1,0) END "
 					+ " ELSE BEGIN DBCC CHECKIDENT ('_User', RESEED) " 
 					+ "END;" ;
@@ -63,15 +65,35 @@ public class JDBC2 {
 			break;
 		case "USER_INFO":
 			System.out.println(Client.username+ "  TEST");
-			result = "SELECT userName,_Level,_Exp FROM _User WHERE userName= '" + Client.username+"'";
+			result = "SELECT UserID,userName,_Level,_Exp FROM _User WHERE userName= '" + Client.username+"'";
 			break;
 			// Get word for the guessing mode, get randomly from db
 		case "GET_WORD":
-			result = "SELECT WordName "
-					+ "FROM Words join Word_Category on Words.CategoryID = Word_Category.CategoryID"
-					+ "WHERE CategoryName = ?"
+			System.out.println("Inside Wordname "+ args[0]);
+			result = "SELECT TOP 1 WordName, WordID "
+					+ "FROM Words join Word_Category on Words.CategoryID = Word_Category.CategoryID "
+					+ "WHERE CatagoryName = ? "
 					+ "ORDER BY NEWID()";
 					
+			break;
+		case "IMAGESEND":
+			// Dont delete it
+			/*result = " declare @first int set @first = ? ; "
+					+ " declare @second int set @second = ? ; "
+					+ " declare @third nvarchar(25) set @third = ? ;"
+					+ " declare @fourth nvarchar(max) set @fourth=''  set @fourth += REPLICATE(cast('' as nvarchar(max)),4000) set @fourth = cast(? as nvarchar(max)) ;  "
+				//	+ " declare @n2 nvarchar(max) ; "
+				//	+ " declare @n nvarchar(max) set @n = REPLICATE(cast(? as nvarchar(max)),4000) ; "
+			//		+ " set @n2 = N'Select ''' + @n + ''''  ;  "
+			//		+ " exec sp_executeSQL @n2 ; "
+				
+
+					
+					 +" INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
+					+ " select @first, @second, @third, @fourth";*/
+			
+			result = "INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
+								+ " VALUES (?,?,?,cast(? as nvarchar(max)),4) ";
 			break;
 		}
 		
@@ -91,6 +113,7 @@ public class JDBC2 {
                         ResultSet.CONCUR_UPDATABLE);
 				if( args.length !=0) {
 					for(int i = 0 ; i < args.length ; i++) {
+						System.out.println("PRE :"+args[i]);
 						prepStmt1.setString(i+1, args[i]);								
 					}
 				}	
@@ -163,16 +186,17 @@ public class JDBC2 {
 
 		String[] result =null;
 		// Check if query succesfully execute
-		int status = 0 ;
+		boolean status = false  ;
 		// Get query base on type
-		String query= getQuery(requestType,args[0],args[4]);
+		
+		String query= getQuery(requestType,args[0],args[1]);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 
 		try {
 			if (conn != null) {				
 				prepStatement = getPreparedStatement(query,args);
-				status = prepStatement.executeUpdate();										
+				status = prepStatement.execute();										
 			}
 		}
 		catch (SQLException e) {
@@ -183,7 +207,7 @@ public class JDBC2 {
 	
 		closeConnection();
 
-		if ( status > 0 )
+		if ( status  )
 			result = new String[] {"Success"};
 		return result;
 	}

@@ -18,6 +18,12 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
     public class DrawingPage{
+        // Get random word from the database 
+    	public static String[] wordArray () {
+    		  String[] word= Client.getNeededInfor("GET_WORD", HomePage.categoryName);
+    		  return word;
+    	}
+       
         public static void main(String[] args){     
 
     JFrame frame = new JFrame("Draw Something");    
@@ -25,21 +31,18 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     Container content = frame.getContentPane();
     frame.getContentPane().setLayout(null);
     
-    JLabel lblNewLabel = new JLabel("Topic :");
-    lblNewLabel.setBounds(10, 79, 57, 19);
-    frame.getContentPane().add(lblNewLabel);
+    JLabel lblTopic = new JLabel("Topic :");
+    lblTopic.setBounds(10, 79, 188, 41);
+    frame.getContentPane().add(lblTopic);
 
-    final PadDraw drawPad = new PadDraw();      
-    drawPad.setBounds(0, 68, 482, 325);
-   
+     PadDraw drawPad = new PadDraw();      
+    drawPad.setBounds(12, 133, 577, 443);
+
 
     content.add(drawPad);
 
     
-    
-    
-    
-    
+
     
 
     JPanel panel = new JPanel();
@@ -110,15 +113,16 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
         public void actionPerformed(ActionEvent e){
         	//We can use the JPEG if we want to save user drawings or 
         	//whatever in the future without referring to DB.
-        	drawPad.saveComponentAsJPEG(drawPad,"C:/test.jpg");
+        	//drawPad.saveComponentAsJPEG(drawPad,"C:/test.jpg");
         	//Send byte to server for storage.
+        	
         	String myBytes = drawPad.saveComponentAsByte(drawPad);
         	
         	//Image is sent to server.
-        	Client.sendImage(myBytes);
+        	drawPad.sendImage(myBytes);
         	
         	//drawPad.ByteToImage(myBytes, "C:/translated.jpg");
-        	JOptionPane.showMessageDialog(null, "The Drawing Sent");
+        //	JOptionPane.showMessageDialog(null, "The Drawing Sent");
         	HomePage homePage = new HomePage();
 			homePage.Home();
 			// Close previous screen
@@ -222,13 +226,24 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     });
     panel.add(clearButton);
 
-    frame.setSize(500, 440);
+    frame.setSize(677, 636);
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     frame.setVisible(true);
 
-}
+    String[] q = wordArray();
+    // Display it out
+    lblTopic.setText("Topic: "+ q[1]);
+
+    
+
+
+        }
+        
+        
+        
+        
 }
 
 
@@ -313,9 +328,21 @@ public void medium(){
 public void big(){
     graphics2D.setStroke(new BasicStroke(12));;
 }
-public void sendImage(Component g) {
+
+
+public void sendImage(String g) {
+	
 	//connect to server, convert to binary and send.
+	String[] userID= Client.getNeededInfor("USER_INFO");
+	String[] wordArray = DrawingPage.wordArray();
+
+//	System.out.println("LOL "+ g+" "+userID[1]+"  "+wordArray[2]+" "+wordArray[1]+" "+HomePage.difficultLevel);
+	
+//	System.out.println("Encoded Length: "+ g.length());
+	Client.imagesend(userID[1], wordArray[2], HomePage.difficultLevel,g);
 }
+
+
 public void saveComponentAsJPEG(Component myComponent, String filename) {
     Dimension size = myComponent.getSize();
     BufferedImage myImage = 

@@ -19,6 +19,9 @@ public class HomePage {
 	private JComboBox comboBoxDifficultLevel;
 	private JButton btnPlay;
 
+	// Variables that hold difficult level and word category
+	public static String difficultLevel;
+	public static String categoryName;
 	/**
 	 * Launch the application.
 	 * @wbp.parser.entryPoint
@@ -106,9 +109,11 @@ public class HomePage {
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String gameMode = comboBoxGameMode.getSelectedItem().toString();
-				String diffLevel = comboBoxDifficultLevel.getSelectedItem().toString();
-				String wordCate = comboBoxCategory.getSelectedItem().toString();
-				
+				difficultLevel = comboBoxDifficultLevel.getSelectedItem().toString();
+				categoryName = comboBoxCategory.getSelectedItem().toString();
+				DrawingPage draw = new DrawingPage();
+				draw.main(new String[] {"sthg"});
+				frame.dispose();
 				// Send the request to the server with these key words
 				// Processing with the database
 				//
@@ -187,8 +192,8 @@ public class HomePage {
 		//
 		//System.out.print(userInfor[1]);
 		// Display user's information
-		lblUserName.setText("Name: " +userInfor[1]);
-		lblLevel.setText("Current level: "+userInfor[2]);
-		lblXP.setText("Current Xp: "+userInfor[3]);
+		lblUserName.setText("Name: " +userInfor[2]);
+		lblLevel.setText("Current level: "+userInfor[3]);
+		lblXP.setText("Current Xp: "+userInfor[4]);
 	}
 }

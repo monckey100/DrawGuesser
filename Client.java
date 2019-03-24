@@ -9,19 +9,19 @@ import java.util.Arrays;
 class Client {
 	// Set username once authenticated so we can reuse it.
 	public static String username = "aaa";
+	
+	public static boolean login(String userName, String password) {
+		String[] result = send("LOGIN", new String[] { userName, password });
 
-	public static boolean login(String username, String password) {
-		String[] result = send("LOGIN", new String[] { username, password });
 		if (result[0].equals("Success")) {
-			// set clients uesrname.
-			Client.username = username;
+			
 			return true;
 		}
 		return false;
 	}
 
-	public static boolean signup(String username, String password, String firstname, String lastname, String email) {
-		String[] result = send("SIGNUP", new String[] { username, password, firstname, lastname, email });
+	public static boolean signup(String username, String email, String password, String firstname, String lastname) {
+		String[] result = send("SIGNUP", new String[] { username, email,password, firstname, lastname });
 		if (result[0].equals("Success")) {
 	
 			return true;
@@ -42,7 +42,9 @@ class Client {
 	
 	public static boolean imagesend(String userID,String word_id,String difficulty,String image_data)
 	{
+		
 		String[] result = send("IMAGESEND", new String[] { userID, word_id, difficulty,image_data});
+		
 		if (result[0].equals("Success")) {
 	
 			return true;
