@@ -99,14 +99,13 @@ public class GuessingPage {
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
 					
 			
-			Timer t;
-	    	int sec =time;
+			Timer t;	    	
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				frame.getContentPane().removeMouseListener(this);
 	    		t =new Timer();
 	    		t.scheduleAtFixedRate(new TimerTask() {
-					int i = 180;
+					int i = time;
 					@Override
 					public void run() {
 						Countdown.setForeground(Color.RED);
@@ -118,6 +117,9 @@ public class GuessingPage {
 							 JOptionPane.showMessageDialog(null, "Times up");
 							 Countdown.setText("Times Over");
 							 textFieldGuessing.disable();
+							 frame.dispose();
+							 FinishScreen fs = new FinishScreen();
+							 fs.main(null);
 						 }
 					}
 				}, 0, 1000);
@@ -132,10 +134,7 @@ public class GuessingPage {
 		// Variables that will hold user's username, level and xp
 		String[] userInfor = Client.getNeededInfor("USER_INFO");
 		// Get information from the database
-		//
-		//System.out.print(userInfor[2]);
-		//System.out.print(userInfor[3]);
-		// Display user's information
+		
 		lblUserName.setText("Name: " +userInfor[1]);
 		lblLevel.setText("Current level: "+userInfor[2]);
 		lblXP.setText("Current Xp: "+userInfor[3]);
