@@ -166,6 +166,9 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 						t.stop();
 						Countdown.setText("Times Over");
 						content.remove(drawPad);
+						frame.dispose();
+						FinishScreen fs = new FinishScreen();
+						fs.main(null);
 					
 						
 					}else
