@@ -191,19 +191,12 @@ public class HomePage {
 	private void DisplayUsersInformation() {
 		// Variables that will hold user's username, level and xp
 		String[] userInfor = Client.getNeededInfor("USER_INFO");
-		// Get information from the database
-		//
-		//System.out.print(userInfor[1]);
+
 		// Display user's information
-//<<<<<<< HEAD
+
 		lblUserName.setText("Name: " +userInfor[2]);
 		lblLevel.setText("Current level: "+userInfor[3]);
 		lblXP.setText("Current Xp: "+userInfor[4]);
-/*=======
-		lblUserName.setText("Name: " +userInfor[1]);
-		lblLevel.setText("Current level: "+userInfor[2]);
-		lblXP.setText("Current Xp: "+userInfor[3]);
 
->>>>>>> 27a0f3107605bb496b932a20eb80312bb8785ad2*/
 	}
 }

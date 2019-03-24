@@ -42,7 +42,7 @@ class Client {
 	
 	public static boolean imagesend(String userID,String word_id,String difficulty,String image_data)
 	{
-		
+
 		String[] result = send("IMAGESEND", new String[] { userID, word_id, difficulty,image_data});
 		
 		if (result[0].equals("Success")) {

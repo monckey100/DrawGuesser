@@ -14,6 +14,7 @@ class Server {
 		JDBC2 jdbc = new JDBC2();
 		while (true) {
 			String packet = myConn.getPackets();
+			
 			if (packet != null) {
 				myConn.parsePacket(packet);
 				// Hold packet to send
@@ -164,7 +165,7 @@ class connectionHandler {
 	public String getPackets() {
 		// INIT Variables
 		String myPacket = null;
-		byte[] receiveData = new byte[1024];
+		byte[] receiveData = new byte[100000];
 
 		// Packet received
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -185,7 +186,8 @@ class connectionHandler {
 	}
 
 	public boolean sendPacket(String myPacket) {
-		byte[] sendData = new byte[1024];
+		int size = Integer.MAX_VALUE;
+		byte[] sendData = new byte[100000];
 
 		// Convert to bytes
 		sendData = myPacket.getBytes();
@@ -202,6 +204,7 @@ class connectionHandler {
 	}
 
 	public void parsePacket(String mPacket) {
+		
 		requestArray = mPacket.trim().split("\\|");
 	}
 
@@ -211,7 +214,9 @@ class connectionHandler {
 
 	public String[] getData() {
 		// remove first character [
+
 		String m = requestArray[1].substring(1);
+		
 		// remove last character ]
 		m = m.substring(0, m.length() - 1);
 		return m.split(", ");

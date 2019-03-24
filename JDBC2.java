@@ -77,23 +77,10 @@ public class JDBC2 {
 					
 			break;
 		case "IMAGESEND":
-			// Dont delete it
-			/*result = " declare @first int set @first = ? ; "
-					+ " declare @second int set @second = ? ; "
-					+ " declare @third nvarchar(25) set @third = ? ;"
-					+ " declare @fourth nvarchar(max) set @fourth=''  set @fourth += REPLICATE(cast('' as nvarchar(max)),4000) set @fourth = cast(? as nvarchar(max)) ;  "
-				//	+ " declare @n2 nvarchar(max) ; "
-				//	+ " declare @n nvarchar(max) set @n = REPLICATE(cast(? as nvarchar(max)),4000) ; "
-			//		+ " set @n2 = N'Select ''' + @n + ''''  ;  "
-			//		+ " exec sp_executeSQL @n2 ; "
-				
 
-					
-					 +" INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
-					+ " select @first, @second, @third, @fourth";*/
-			
-			result = "INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
-								+ " VALUES (?,?,?,cast(? as nvarchar(max))) ";
+			result =  " INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
+						+ " VALUES (?,?,?,cast(? as nvarchar(max)) ); ";
+									
 			break;
 		}
 		
@@ -189,7 +176,7 @@ public class JDBC2 {
 		boolean status = false  ;
 		// Get query base on type
 		
-		String query= getQuery(requestType,args[0],args[1]);
+		String query= getQuery(requestType,args[0],args[1],args[3]);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 
