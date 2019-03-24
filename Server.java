@@ -106,9 +106,13 @@ class Server {
 				
 					sendInfo = jdbc.modifyData("IMAGESEND", myConn.getData());
 				break;
-				case "IMAGEGUESS":
+				case "GET_IMAGE":
 					//Client: {userID,word_id,difficulty}
 					//Server: {wordID,drawingID,drawingData}
+					neededInfo = new String[] {"WordName","DrawingData"};
+					myConn.setType("GET_IMAGE");
+					sendInfo = jdbc.getData("GET_IMAGE", neededInfo, myConn.getData());
+					
 					break;
 				case "SENDGUESS":
 					 /*
@@ -186,12 +190,12 @@ class connectionHandler {
 	}
 
 	public boolean sendPacket(String myPacket) {
-		int size = Integer.MAX_VALUE;
+	
 		byte[] sendData = new byte[100000];
 
 		// Convert to bytes
 		sendData = myPacket.getBytes();
-
+	
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 		try {
 			serverSocket.send(sendPacket);
@@ -232,6 +236,7 @@ class connectionHandler {
 	}
 
 	public String packageData() {
+		
 		return datatype + "|" + Arrays.toString(datastuff);
 	}
 }

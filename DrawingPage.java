@@ -406,7 +406,7 @@ public String saveComponentAsByte(Component myComponent) {
     }
 	return null; //something failed.
   }
-public void ByteToImage(String bytes, String filename) {
+public static void ByteToImage(String bytes, String filename) {
 	String data = "data:image/jpeg;base64,"+bytes;
 	String base64Image = data.split(",")[1];
 	byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);

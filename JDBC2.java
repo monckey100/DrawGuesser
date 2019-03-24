@@ -82,6 +82,13 @@ public class JDBC2 {
 						+ " VALUES (?,?,?,cast(? as nvarchar(max)) ); ";
 									
 			break;
+		case "GET_IMAGE":
+			result = " SELECT WordName,DrawingData "
+					+" FROM Drawing join Words on Drawing.WordID = Words.WordID "
+					+" JOIN Word_Category on Words.CategoryID = Word_Category.CategoryID "
+					+" WHERE UserID <> ? AND CatagoryName = ? "
+					+" ORDER BY NEWID()";
+			break;
 		}
 		
 		
@@ -149,7 +156,7 @@ public class JDBC2 {
 					resultList.add(0, "Success");
 					// Convert arraylist to array
 					resultArray = resultList.toArray(new String[resultList.size()])	;
-					
+				//	System.out.println("Inside jdbc2: "+resultArray[resultArray.length-1].length());
 				}
 				else
 					resultArray = new String[] {"Fail"};

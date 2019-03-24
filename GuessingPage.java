@@ -129,6 +129,21 @@ public class GuessingPage {
 		});
 		
 		
+		// Test image retrieval
+		String[] image = getImageAndAnsw();
+		// first index is answer, second one is the image encoded
+		System.out.println(image[1] +" "+image[2]);
+		
+		
+		
+		
+	}
+	// Get image and answer array
+	public static String[] getImageAndAnsw() {
+
+		String[] userID= Client.getNeededInfor("USER_INFO");		
+		String[] image = Client.getNeededInfor("GET_IMAGE", userID[1],HomePage.categoryName);
+		return image;
 	}
 	private void DisplayUsersInformation() {
 		// Variables that will hold user's username, level and xp

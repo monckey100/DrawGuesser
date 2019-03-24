@@ -69,6 +69,7 @@ class Client {
 	public static  String [] getNeededInfor(String info,String... args) {
 
 		String[] result =send(info, args);
+
 		return result;
 	}
 
@@ -128,7 +129,7 @@ class clientConnection {
 	}
 
 	public void sendrawData(String request) {
-		byte[] sendData = new byte[1024];
+		byte[] sendData = new byte[100000];
 		sendData = request.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
 		try {
@@ -140,7 +141,7 @@ class clientConnection {
 	}
 
 	public String receiveData() {
-		byte[] receiveData = new byte[1024];
+		byte[] receiveData = new byte[100000];
 		String databasePackage;
 
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);

@@ -111,9 +111,9 @@ public class HomePage {
 				String gameMode = comboBoxGameMode.getSelectedItem().toString();
 				difficultLevel = comboBoxDifficultLevel.getSelectedItem().toString();
 				categoryName = comboBoxCategory.getSelectedItem().toString();
-				DrawingPage draw = new DrawingPage("sthg");
-				draw.main(new String[] {"sthg"});
-				frame.dispose();
+		//		DrawingPage draw = new DrawingPage("sthg");
+		//		draw.main(new String[] {"sthg"});
+		//		frame.dispose();
 				// Send the request to the server with these key words
 				// Processing with the database
 				//
@@ -121,28 +121,20 @@ public class HomePage {
 				// After that navigate to appropriate mode
 
 				
-				// Dont uncomment this until we have image store successfully in the db
-				/*if(gameMode.equals("Drawing")) {
-					
-					
-					
-					
-					
-					
-					// Will do at the end
-					DrawingPage draw = new DrawingPage(diffLevel);
-					draw.main(null);
+
+				if(gameMode.equals("Drawing")) {
+					DrawingPage draw = new DrawingPage("sthg");
+							draw.main(new String[] {"sthg"});
+							frame.dispose();
 				}
 				else {
 					
-					
-					
-					
-					GuessingPage guess = new GuessingPage(diffLevel);
+					GuessingPage guess = new GuessingPage();
 					guess.main();
+					frame.dispose();
 					
 					
-				}*/
+				}
 				
 			}
 		});
