@@ -103,7 +103,7 @@ public class LoginPage {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GuessingPage guess = new GuessingPage();
-				guess.main();
+				guess.main(new String[] {"sthg"});
 
 			}
 		});

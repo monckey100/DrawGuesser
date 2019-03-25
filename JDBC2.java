@@ -83,7 +83,7 @@ public class JDBC2 {
 									
 			break;
 		case "GET_IMAGE":
-			result = " SELECT WordName,DrawingData "
+			result = " SELECT TOP 1 WordName,DrawingData "
 					+" FROM Drawing join Words on Drawing.WordID = Words.WordID "
 					+" JOIN Word_Category on Words.CategoryID = Word_Category.CategoryID "
 					+" WHERE UserID <> ? AND CatagoryName = ? "

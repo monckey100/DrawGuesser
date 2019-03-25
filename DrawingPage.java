@@ -166,6 +166,10 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 						t.stop();
 						Countdown.setText("Times Over");
 						content.remove(drawPad);
+						String myBytes = drawPad.saveComponentAsByte(drawPad);
+			        	
+			        	//Image is sent to server.
+			        	drawPad.sendImage(myBytes);
 						frame.dispose();
 						FinishScreen fs = new FinishScreen();
 						fs.main(null);

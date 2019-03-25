@@ -86,6 +86,7 @@ public class FinishScreen {
 				
 				HomePage homePage = new HomePage();
 				homePage.Home();
+				frame.dispose();
 			}
 		});
 		btnReturnHomePage.setBounds(271, 473, 201, 54);

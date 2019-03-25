@@ -130,7 +130,7 @@ public class HomePage {
 				else {
 					
 					GuessingPage guess = new GuessingPage();
-					guess.main();
+					guess.main(new String[] {"sthg"});
 					frame.dispose();
 					
 					

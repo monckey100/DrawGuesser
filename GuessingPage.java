@@ -3,13 +3,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
+import javax.imageio.ImageIO;
+import javax.print.DocFlavor.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.ActionEvent;
@@ -25,14 +31,16 @@ public class GuessingPage {
 	private JLabel lblXP;
 	private JTextField textFieldGuessing;
 	public int time;
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main( ) {
+	public static void main(String[] args ) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					GuessingPage window = new GuessingPage();
+					
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,36 +52,31 @@ public class GuessingPage {
 	/**
 	 * Create the application.
 	 */
+
 	public GuessingPage() {
 		initialize();
 	}
-	
-	public GuessingPage(String diffLevel) {
-		getClass() ;
-		getTime(diffLevel);		
-		initialize();
-		
-		
-	}
+
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		
 		
-		frame.setBounds(100, 100, 738, 669);
+		frame.setBounds(100, 100, 1000, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		textFieldGuessing = new JTextField();
-		textFieldGuessing.setBounds(87, 457, 319, 51);
+		textFieldGuessing.setBounds(87, 700, 319, 51);
 		frame.getContentPane().add(textFieldGuessing);
 		textFieldGuessing.setColumns(10);
 		
 		JButton btnGuessing = new JButton("Answer");
-		btnGuessing.setBounds(460, 457, 147, 51);
+		btnGuessing.setBounds(460, 700, 147, 51);
 		frame.getContentPane().add(btnGuessing);
 		
 		JLabel lblNameHere = new JLabel("Guessing game ");
@@ -96,6 +99,9 @@ public class GuessingPage {
 		JLabel Countdown = new JLabel("Ready?");
 		Countdown.setBounds(22, 163, 111, 33);
 		frame.getContentPane().add(Countdown);
+		
+		 
+		
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
 					
 			
@@ -127,16 +133,38 @@ public class GuessingPage {
 	    		
 	    	}
 		});
+		getImageCode();
+		convertToImage();
+		// Use to display the image
+        JLabel lbl=new JLabel();
+		lbl.setBounds(110, 200, 700, 500);
+		// Get current directory where the image is stored
+		String path  = System.getProperty("user.dir");
+
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File(path + "//translatedImage.jpeg"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        ImageIcon icon=new ImageIcon(img);
+
+		lbl.setIcon(icon);
+		frame.getContentPane().add(lbl);
+       
+
+	
 		
 		
-		// Test image retrieval
+	}
+	public static String[] getImageCode() {
 		String[] image = getImageAndAnsw();
-		// first index is answer, second one is the image encoded
-		System.out.println(image[1] +" "+image[2]);
-		
-		
-		
-		
+		return image;
+	}
+	public static void convertToImage() {
+		String[] image = getImageCode();
+		PadDraw.ByteToImage(image[2], "translatedImage.jpeg");
 	}
 	// Get image and answer array
 	public static String[] getImageAndAnsw() {
@@ -150,9 +178,9 @@ public class GuessingPage {
 		String[] userInfor = Client.getNeededInfor("USER_INFO");
 		// Get information from the database
 		
-		lblUserName.setText("Name: " +userInfor[1]);
-		lblLevel.setText("Current level: "+userInfor[2]);
-		lblXP.setText("Current Xp: "+userInfor[3]);
+		lblUserName.setText("Name: " +userInfor[2]);
+		lblLevel.setText("Current level: "+userInfor[3]);
+		lblXP.setText("Current Xp: "+userInfor[4]);
 		
 		
 
