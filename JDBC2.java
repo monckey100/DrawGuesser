@@ -86,9 +86,32 @@ public class JDBC2 {
 			result = " SELECT TOP 1 WordName,DrawingData "
 					+" FROM Drawing join Words on Drawing.WordID = Words.WordID "
 					+" JOIN Word_Category on Words.CategoryID = Word_Category.CategoryID "
-					+" WHERE UserID <> ? AND CatagoryName = ? "
+					
+				
+					+" WHERE UserID <> ? AND CatagoryName = ? AND NOT EXISTS "
+					+"		( SELECT Drawing.DrawingID FROM DRAWING JOIN Correct_Guess on Drawing.DrawingID  = Correct_Guess.DrawingID) "
 					+" ORDER BY NEWID()";
 			break;
+		case "INSERT_GUESS":
+			result =  " INSERT INTO GUESS(DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime) "
+					+ " VALUES (?,?,?,?,?)";
+		case "UPDATE_POINT":
+			result =  " UPDATE _User "
+					+ " SET _Exp = _Exp + CASE "
+					+ "		WHEN DifficultyLevel = 'Easy' THEN 10 " 
+					+ "		WHEN DifficultyLevel = 'Intermediate' THEN 20 "
+					+ " 	WHEN DifficultyLevel = 'Hard' THEN 30 "
+					+ "		ELSE 0 "
+					+ "		END "
+					+ " FROM _User JOIN Guess on _User.UserID = Guess.UserID "
+					+ "	WHERE  _User.UserID = ? AND DifficultyLevel = ?  AND SucceedTimes =1;"
+					+ " "
+					+ " UPDATE _User "
+					+ "	SET _Level = _Exp / (100 * Level) ";
+					
+			
+			break;
+
 		}
 		
 		
