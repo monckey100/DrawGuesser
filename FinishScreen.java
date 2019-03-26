@@ -100,9 +100,9 @@ public class FinishScreen {
 		//System.out.print(userInfor[2]);
 		//System.out.print(userInfor[3]);
 		// Display user's information
-		lblUserName.setText("Name: " +userInfor[1]);
-		lblLevel.setText("Current level: "+userInfor[2]);
-		lblXP.setText("Current Xp: "+userInfor[3]);
+		lblUserName.setText("Name: " +userInfor[2]);
+		lblLevel.setText("Current level: "+userInfor[3]);
+		lblXP.setText("Current Xp: "+userInfor[4]);
 		
 
 	}
