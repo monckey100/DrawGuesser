@@ -63,6 +63,18 @@ class Client {
 		return false;		
 	}
 	
+	public static boolean correct_guess(String userID,String drawingID,String correct)
+	{
+		String[] result = send("CORRECT_GUESS", new String[] { userID, drawingID,correct });
+		if (result[0].equals("Success")) {
+	
+			return true;
+		}
+		return false;		
+	}
+	
+	
+	
 	
 	
 	

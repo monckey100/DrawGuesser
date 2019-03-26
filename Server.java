@@ -134,6 +134,16 @@ class Server {
 					sendInfo = jdbc.getData("USER_INFO", neededInfo);
 					
 					break;
+				case "CORRECT_GUESS":
+					//Client: {userID,word_id,correct}
+					//Server: {wordID,drawingID,drawingData}
+					neededInfo = new String[] {"WordName","DrawingData","Correct_Guess"};
+					myConn.setType("CORRECT_GUESS");
+					sendInfo = jdbc.getData("CORRECT_GUESS", neededInfo, myConn.getData());
+					
+					break;	
+				
+					
 
 				default:
 					myConn.setType("ERROR");
