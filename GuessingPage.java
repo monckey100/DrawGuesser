@@ -31,6 +31,7 @@ public class GuessingPage {
 	private JLabel lblXP;
 	private JTextField textFieldGuessing;
 	public int time;
+	String[] image;
 	
 	/**
 	 * Launch the application.
@@ -126,6 +127,10 @@ public class GuessingPage {
 							 frame.dispose();
 							 FinishScreen fs = new FinishScreen();
 							 fs.main(null);
+						 }else if (image[1].equals(textFieldGuessing.getText()))
+						 {
+							 getImageCode();
+							 convertToImage();
 						 }
 					}
 				}, 0, 1000);
