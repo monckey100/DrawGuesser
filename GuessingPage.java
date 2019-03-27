@@ -103,7 +103,7 @@ public class GuessingPage {
 		
 		 
 		
-		frame.getContentPane().addMouseListener(new MouseAdapter() {
+		/*frame.getContentPane().addMouseListener(new MouseAdapter() {
 					
 			
 			Timer t;	    	
@@ -137,9 +137,9 @@ public class GuessingPage {
 	    		
 	    		
 	    	}
-		});
-		getImageCode();
-		convertToImage();
+		});*/
+		String[] imageInfo = getImageAndAnsw();
+		convertToImage(imageInfo[2]);
 		// Use to display the image
         JLabel lbl=new JLabel();
 		lbl.setBounds(110, 200, 700, 500);
@@ -159,20 +159,53 @@ public class GuessingPage {
 		frame.getContentPane().add(lbl);
        
 
+	// Event handler when user click guess
+		btnGuessing.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Get user's answer
+				String userAnswer = textFieldGuessing.getText();
+				// Get correction answer and drawing id
+				//String[] imageInfo = getImageCode();
+				// Get user ID
+				String[] userID= Client.getNeededInfor("USER_INFO");
+				// Compare correct answer
+				System.out.print("Answre is "+userAnswer + " "+imageInfo[1]);
+				if( userAnswer.toLowerCase().equals(imageInfo[1].toLowerCase())) { 
+					JOptionPane.showMessageDialog(null, "That answer is correct !");
+					
+					//DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime
+					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"1","1");
+					Client.updatePoint(userID[1], HomePage.difficultLevel);
+					//
+					//Client.insertCorrectGuess(userID[1],imageInfo[3]);
+					FinishScreen fn = new FinishScreen();
+					fn.main(new String[] {"sthg"});
+					frame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Wrong answer!/nPlease Try Again");
+					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"0","1");
+					FinishScreen fn = new FinishScreen();
+					fn.main(new String[] {"sthg"});
+					frame.dispose();
+					
+				}
+				
+			}
+		});
+		
+		
+	}
+
+	public static void convertToImage(String imageCode) {
 	
-		
-		
-	}
-	public static String[] getImageCode() {
-		String[] image = getImageAndAnsw();
-		return image;
-	}
-	public static void convertToImage() {
-		String[] image = getImageCode();
-		PadDraw.ByteToImage(image[2], "translatedImage.jpeg");
+		PadDraw.ByteToImage(imageCode, "translatedImage.jpeg");
 	}
 	// Get image and answer array
 	public static String[] getImageAndAnsw() {
+	//  [1]- correct answer
+	// 	[2]- image encoded
+	//  [3]- drawing ID
 
 		String[] userID= Client.getNeededInfor("USER_INFO");		
 		String[] image = Client.getNeededInfor("GET_IMAGE", userID[1],HomePage.categoryName);

@@ -181,7 +181,7 @@ public class SignUpPage {
 		// If exists in the database then return false 
 		// If not then return true
 		
-		return Client.signup(userName, signUpPassword, firstName, lastName, email);
+		return Client.signup(userName, email, signUpPassword, firstName, lastName);
 	}
 	
 	private boolean emptyChecking() {

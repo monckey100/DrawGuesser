@@ -47,7 +47,7 @@ public class JDBC2 {
 			break;
 
 		case "SIGNUP":
-			result =  "IF NOT EXISTS ( SELECT * FROM _User WHERE Email = '" +args[0]+"' OR userName = '"+ args[1]+"' ) "
+			result =  "IF NOT EXISTS ( SELECT * FROM _User WHERE Email = '" +args[1]+"' OR userName = '"+ args[0]+"' ) "
 					+ " BEGIN "
 					+ " INSERT INTO _USER (userName,Email,_Password,Fname,Lname,_Level,_Exp) "
 					+ " VALUES(?,?,?,?,?,1,0) END "
@@ -83,19 +83,21 @@ public class JDBC2 {
 									
 			break;
 		case "GET_IMAGE":
-			result = " SELECT TOP 1 WordName,DrawingData "
+			result = " SELECT TOP 1 WordName,DrawingData,DrawingID "
 					+" FROM Drawing join Words on Drawing.WordID = Words.WordID "
 					+" JOIN Word_Category on Words.CategoryID = Word_Category.CategoryID "
 					
 				
-					+" WHERE UserID <> ? AND CatagoryName = ? AND NOT EXISTS "
-					+"		( SELECT Drawing.DrawingID FROM DRAWING JOIN Correct_Guess on Drawing.DrawingID  = Correct_Guess.DrawingID) "
+					+" WHERE UserID <> ? AND CatagoryName = ? "
+				//	+"		( SELECT Drawing.DrawingID FROM DRAWING JOIN Correct_Guess on Drawing.DrawingID  = Correct_Guess.DrawingID) "
 					+" ORDER BY NEWID()";
 			break;
 		case "INSERT_GUESS":
-			result =  " INSERT INTO GUESS(DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime) "
+			result =  " INSERT INTO Guess(DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime) "
 					+ " VALUES (?,?,?,?,?)";
+			break;
 		case "UPDATE_POINT":
+			System.out.println("go in update");
 			result =  " UPDATE _User "
 					+ " SET _Exp = _Exp + CASE "
 					+ "		WHEN DifficultyLevel = 'Easy' THEN 10 " 
@@ -104,13 +106,17 @@ public class JDBC2 {
 					+ "		ELSE 0 "
 					+ "		END "
 					+ " FROM _User JOIN Guess on _User.UserID = Guess.UserID "
-					+ "	WHERE  _User.UserID = ? AND DifficultyLevel = ?  AND SucceedTimes =1;"
-					+ " "
+					+ "	WHERE  _User.UserID = ? AND DifficultyLevel = ?  AND SucceedTimes =1 ; "
+					+ "  "
 					+ " UPDATE _User "
-					+ "	SET _Level = _Exp / (100 * Level) ";
+					+ "	SET _Level = (_Level +1)  WHERE _Level = ( _Exp / (100 * _Level)) ";
 					
 			
 			break;
+		case "INSERT_CORRECT_GUESS":
+			result = " INSERT INTO Correct_Guess VALUES (?,?)";
+			break;
+		
 
 		}
 		
@@ -206,7 +212,7 @@ public class JDBC2 {
 		boolean status = false  ;
 		// Get query base on type
 		
-		String query= getQuery(requestType,args[0],args[1],args[3]);
+		String query= getQuery(requestType,args);
 		// Initialize prepared statement
 		PreparedStatement prepStatement =null;
 

@@ -63,16 +63,31 @@ class Client {
 		return false;		
 	}
 	
-	public static boolean correct_guess(String userID,String drawingID,String correct)
+	public static boolean insertGuess(String ... args)
 	{
-		String[] result = send("CORRECT_GUESS", new String[] { userID, drawingID,correct });
+		String[] result = send("INSERT_GUESS", args);
 		if (result[0].equals("Success")) {
 	
 			return true;
 		}
 		return false;		
 	}
-	
+	public static boolean updatePoint(String userID, String diffLevel) {
+		String[] result = send("UPDATE_POINT", new String[] {userID,diffLevel});
+		if (result[0].equals("Success")) {
+			
+			return true;
+		}
+		return false;
+	}
+	public static boolean insertCorrectGuess(String userID, String drawingID) {
+		String[] result = send("INSERT_CORRECT_GUESS", new String[] {userID,drawingID});
+		if (result[0].equals("Success")) {
+			
+			return true;
+		}
+		return false;
+	}
 	
 	
 	

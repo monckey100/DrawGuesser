@@ -102,10 +102,11 @@ Select WordID,Word_Category.CatagoryName,WordName From Words
 Select * from _User 
 Select * from Guess
 select   * from drawing
+select * from Correct_Guess
 insert into drawing(UserID,WordID,DifficultyLevel,DrawingData) select 1,1,'Easy', convert(varbinary(max),'asd')
 
-delete from Guess
-DBCC CHECKIDENT ('Guess', RESEED, 0)
+delete from _User
+DBCC CHECKIDENT ('_User', RESEED)
 GO
 
 

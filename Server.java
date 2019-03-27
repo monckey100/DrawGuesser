@@ -109,7 +109,7 @@ class Server {
 				case "GET_IMAGE":
 					//Client: {userID,word_id,difficulty}
 					//Server: {wordID,drawingID,drawingData}
-					neededInfo = new String[] {"WordName","DrawingData"};
+					neededInfo = new String[] {"WordName","DrawingData","DrawingID"};
 					myConn.setType("GET_IMAGE");
 					sendInfo = jdbc.getData("GET_IMAGE", neededInfo, myConn.getData());
 					
@@ -134,14 +134,24 @@ class Server {
 					sendInfo = jdbc.getData("USER_INFO", neededInfo);
 					
 					break;
-				case "CORRECT_GUESS":
+				case "INSERT_GUESS":
 					//Client: {userID,word_id,correct}
 					//Server: {wordID,drawingID,drawingData}
-					neededInfo = new String[] {"WordName","DrawingData","Correct_Guess"};
-					myConn.setType("CORRECT_GUESS");
-					sendInfo = jdbc.getData("CORRECT_GUESS", neededInfo, myConn.getData());
+					//neededInfo = new String[] {"WordName","DrawingData","Correct_Guess"};
+					myConn.setType("INSERT_GUESS");
+					sendInfo = jdbc.modifyData("INSERT_GUESS", myConn.getData());
 					
 					break;	
+				case "UPDATE_POINT":
+					myConn.setType("UPDATE_POINT");
+					sendInfo = jdbc.modifyData("UPDATE_POINT", myConn.getData());
+					
+					break;
+				case "INSERT_CORRECT_GUESS":
+					myConn.setType("INSERT_CORRECT_GUESS");
+					sendInfo = jdbc.modifyData("INSERT_CORRECT_GUESS", myConn.getData());
+					
+					break;
 				
 					
 
