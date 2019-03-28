@@ -152,8 +152,6 @@ public class GuessingPage {
 		});
 		
 		getTime(HomePage.difficultLevel);
-		imageInfo = getImageAndAnsw();
-		convertToImage(imageInfo[2]);
 
 		// Use to display the image
         lbl=new JLabel();
