@@ -227,7 +227,7 @@ public class JDBC2 {
 
 		String[] result =null;
 		// Check if query succesfully execute
-		boolean status = false  ;
+		int status = 0;
 		// Get query base on type
 		
 		String query= getQuery(requestType,args);
@@ -235,9 +235,11 @@ public class JDBC2 {
 		PreparedStatement prepStatement =null;
 
 		try {
-			if (conn != null) {				
+			if (conn != null) {			
+				
 				prepStatement = getPreparedStatement(query,args);
-				status = prepStatement.execute();										
+				status = prepStatement.executeUpdate();		
+
 			}
 		}
 		catch (SQLException e) {
@@ -248,7 +250,7 @@ public class JDBC2 {
 	
 		closeConnection();
 
-		if ( status  )
+		if ( status >0  )
 			result = new String[] {"Success"};
 		return result;
 	}

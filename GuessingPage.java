@@ -30,14 +30,24 @@ public class GuessingPage {
 	private JLabel lblLevel;
 	private JLabel lblXP;
 	private JTextField textFieldGuessing;
+
 	private static JLabel lbl;
-	public int time;
+
 	public static String[] imageInfo;
 	
+
+	String[] timePeriod;
+	public int time;
+	String[] image;
+	static String diffLevel;
+
 	
 	/**
 	 * Launch the application.
 	 */
+	
+	
+	
 	public static void main(String[] args ) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,8 +67,10 @@ public class GuessingPage {
 	 */
 
 	public GuessingPage() {
+		
 		initialize();
 		
+
 	}
 
 
@@ -106,7 +118,7 @@ public class GuessingPage {
 		
 		 
 		
-		/*frame.getContentPane().addMouseListener(new MouseAdapter() {
+		frame.getContentPane().addMouseListener(new MouseAdapter() {
 					
 			
 			Timer t;	    	
@@ -130,17 +142,19 @@ public class GuessingPage {
 							 frame.dispose();
 							 FinishScreen fs = new FinishScreen();
 							 fs.main(null);
-						 }else if (image[1].equals(textFieldGuessing.getText()))
-						 {
-							 getImageCode();
-							 convertToImage();
 						 }
 					}
 				}, 0, 1000);
 	    		
 	    		
 	    	}
-		});*/
+
+		});
+		
+		getTime(HomePage.difficultLevel);
+		imageInfo = getImageAndAnsw();
+		convertToImage(imageInfo[2]);
+
 		// Use to display the image
         lbl=new JLabel();
 		lbl.setBounds(110, 200, 700, 500);

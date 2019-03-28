@@ -123,16 +123,16 @@ public class HomePage {
 				
 
 				if(gameMode.equals("Drawing")) {
-					DrawingPage draw = new DrawingPage("sthg");
+					DrawingPage draw = new DrawingPage(difficultLevel);
 							draw.main(new String[] {"sthg"});
 							frame.dispose();
 				}
 				else {
-						GuessingPage guess = new GuessingPage();
-						guess.main(new String[] {"sthg"});
-						frame.dispose();
-					
-					
+
+					GuessingPage guess = new GuessingPage();
+					guess.main(new String[] {"sthg"});
+					frame.dispose();
+
 					
 					
 				}

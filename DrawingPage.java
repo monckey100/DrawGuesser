@@ -29,7 +29,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
     	
 
-        public static void main(String[] args){     
+     public static void main(String[] args){     
 
     JFrame frame = new JFrame("Draw Something");    
 
