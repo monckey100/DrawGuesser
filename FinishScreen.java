@@ -13,6 +13,8 @@ public class FinishScreen {
 	private JLabel lblUserName;
 	private JLabel lblLevel;
 	private JLabel lblXP;
+	private JLabel lblTotalGuesses;
+	private JLabel lblCorrectGuesses;
 
 	/**
 	 * Launch the application.
@@ -72,11 +74,11 @@ public class FinishScreen {
 		lblNumberOfCorrect.setBounds(127, 277, 215, 38);
 		frame.getContentPane().add(lblNumberOfCorrect);
 		
-		JLabel lblTotalGuesses = new JLabel("New label");
+		 lblTotalGuesses = new JLabel("New label");
 		lblTotalGuesses.setBounds(460, 227, 56, 16);
 		frame.getContentPane().add(lblTotalGuesses);
 		
-		JLabel lblCorrectGuesses = new JLabel("New label");
+		 lblCorrectGuesses = new JLabel("New label");
 		lblCorrectGuesses.setBounds(460, 288, 56, 16);
 		frame.getContentPane().add(lblCorrectGuesses);
 		
@@ -96,6 +98,8 @@ public class FinishScreen {
 		// Variables that will hold user's username, level and xp
 		String[] userInfor = Client.getNeededInfor("USER_INFO");
 		// Get information from the database
+		//System.out.println("FN "+GuessingPage.imageInfo[3]);
+		String[] finalResult = Client.getNeededInfor("FINAL_RESULT", GuessingPage.imageInfo[3]);
 		//
 		//System.out.print(userInfor[2]);
 		//System.out.print(userInfor[3]);
@@ -103,6 +107,10 @@ public class FinishScreen {
 		lblUserName.setText("Name: " +userInfor[2]);
 		lblLevel.setText("Current level: "+userInfor[3]);
 		lblXP.setText("Current Xp: "+userInfor[4]);
+		
+		
+		lblTotalGuesses.setText(finalResult[2]);
+		lblCorrectGuesses.setText(finalResult[1]);
 		
 
 	}

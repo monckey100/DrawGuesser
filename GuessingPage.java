@@ -30,8 +30,10 @@ public class GuessingPage {
 	private JLabel lblLevel;
 	private JLabel lblXP;
 	private JTextField textFieldGuessing;
+	private static JLabel lbl;
 	public int time;
-	String[] image;
+	public static String[] imageInfo;
+	
 	
 	/**
 	 * Launch the application.
@@ -56,6 +58,7 @@ public class GuessingPage {
 
 	public GuessingPage() {
 		initialize();
+		
 	}
 
 
@@ -138,12 +141,80 @@ public class GuessingPage {
 	    		
 	    	}
 		});*/
-		String[] imageInfo = getImageAndAnsw();
-		convertToImage(imageInfo[2]);
 		// Use to display the image
-        JLabel lbl=new JLabel();
+        lbl=new JLabel();
 		lbl.setBounds(110, 200, 700, 500);
-		// Get current directory where the image is stored
+		frame.getContentPane().add(lbl);
+		System.out.println("this is a test");
+		 imageInfo = getImageAndAnsw();
+		if(imageInfo[0].equals("Fail")) {
+			lbl.setText("There are no available images! Please try again later");	
+			lbl.setFont(new Font("Serif", Font.PLAIN, 20));
+
+			textFieldGuessing.setEditable(false);
+			btnGuessing.setEnabled(false);
+			JButton btn = new JButton("Finish");
+			btn.setBounds(460, 500, 147, 51);
+			frame.getContentPane().add(btn);
+			btn.addActionListener( new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					HomePage home = new HomePage();
+					home.Home();
+					frame.dispose();
+				}
+			});
+		}
+		else {			
+			convertToImage(imageInfo[2]);
+			displayImage();		
+		}
+		
+		
+		
+       
+
+	// Event handler when user click guess
+		btnGuessing.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+			
+				// Get user's answer
+				String userAnswer = textFieldGuessing.getText();
+				// Get correction answer and drawing id
+
+				// Get user ID
+				String[] userID= Client.getNeededInfor("USER_INFO");
+				// Compare correct answer
+				System.out.print("Answre is "+userAnswer + " "+imageInfo[1]);
+				if( userAnswer.toLowerCase().equals(imageInfo[1].toLowerCase())) { 
+					JOptionPane.showMessageDialog(null, "That answer is correct !");
+					
+					//DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime
+					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"1","1");
+					Client.updatePoint(userID[1], HomePage.difficultLevel,imageInfo[4],imageInfo[3]);
+					// Ensure that user wont receive the same image that they gave the correct answer
+					Client.insertCorrectGuess(userID[1],imageInfo[3]);
+					navigateScreen();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Wrong answer!/nPlease Try Again");
+					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"0","1");
+					navigateScreen();
+					
+				}
+				
+			}
+		});
+		
+		
+	}
+
+	public void navigateScreen() {
+		FinishScreen fn = new FinishScreen();
+		fn.main(new String[] {"sthg"});
+		frame.dispose();
+	}
+	public static void displayImage() {
 		String path  = System.getProperty("user.dir");
 
 		BufferedImage img = null;
@@ -156,45 +227,6 @@ public class GuessingPage {
         ImageIcon icon=new ImageIcon(img);
 
 		lbl.setIcon(icon);
-		frame.getContentPane().add(lbl);
-       
-
-	// Event handler when user click guess
-		btnGuessing.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// Get user's answer
-				String userAnswer = textFieldGuessing.getText();
-				// Get correction answer and drawing id
-				//String[] imageInfo = getImageCode();
-				// Get user ID
-				String[] userID= Client.getNeededInfor("USER_INFO");
-				// Compare correct answer
-				System.out.print("Answre is "+userAnswer + " "+imageInfo[1]);
-				if( userAnswer.toLowerCase().equals(imageInfo[1].toLowerCase())) { 
-					JOptionPane.showMessageDialog(null, "That answer is correct !");
-					
-					//DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime
-					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"1","1");
-					Client.updatePoint(userID[1], HomePage.difficultLevel);
-					//
-					//Client.insertCorrectGuess(userID[1],imageInfo[3]);
-					FinishScreen fn = new FinishScreen();
-					fn.main(new String[] {"sthg"});
-					frame.dispose();
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Wrong answer!/nPlease Try Again");
-					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"0","1");
-					FinishScreen fn = new FinishScreen();
-					fn.main(new String[] {"sthg"});
-					frame.dispose();
-					
-				}
-				
-			}
-		});
-		
-		
 	}
 
 	public static void convertToImage(String imageCode) {
@@ -206,9 +238,9 @@ public class GuessingPage {
 	//  [1]- correct answer
 	// 	[2]- image encoded
 	//  [3]- drawing ID
-
-		String[] userID= Client.getNeededInfor("USER_INFO");		
+		String[] userID= Client.getNeededInfor("USER_INFO");	
 		String[] image = Client.getNeededInfor("GET_IMAGE", userID[1],HomePage.categoryName);
+
 		return image;
 	}
 	private void DisplayUsersInformation() {

@@ -128,10 +128,11 @@ public class HomePage {
 							frame.dispose();
 				}
 				else {
+						GuessingPage guess = new GuessingPage();
+						guess.main(new String[] {"sthg"});
+						frame.dispose();
 					
-					GuessingPage guess = new GuessingPage();
-					guess.main(new String[] {"sthg"});
-					frame.dispose();
+					
 					
 					
 				}

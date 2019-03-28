@@ -72,8 +72,8 @@ class Client {
 		}
 		return false;		
 	}
-	public static boolean updatePoint(String userID, String diffLevel) {
-		String[] result = send("UPDATE_POINT", new String[] {userID,diffLevel});
+	public static boolean updatePoint(String userID, String diffLevel,String drawerID, String drawingID) {
+		String[] result = send("UPDATE_POINT", new String[] {userID,diffLevel,drawerID,drawingID});
 		if (result[0].equals("Success")) {
 			
 			return true;
@@ -89,6 +89,8 @@ class Client {
 		return false;
 	}
 	
+
+	
 	
 	
 	
@@ -96,7 +98,7 @@ class Client {
 	public static  String [] getNeededInfor(String info,String... args) {
 
 		String[] result =send(info, args);
-
+		
 		return result;
 	}
 

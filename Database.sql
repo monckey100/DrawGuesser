@@ -105,9 +105,13 @@ select   * from drawing
 select * from Correct_Guess
 insert into drawing(UserID,WordID,DifficultyLevel,DrawingData) select 1,1,'Easy', convert(varbinary(max),'asd')
 
-delete from _User
-DBCC CHECKIDENT ('_User', RESEED)
+delete from drawing
+DBCC CHECKIDENT ('drawing', RESEED,0)
 GO
+
+   SELECT sum(SucceedTimes) as ss , sum(TotalTime) as total
+from Guess 
+where DrawingID =2
 
 
 

@@ -18,7 +18,8 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
     public class DrawingPage{
-
+    	static int time;
+    	public static String[] q;
         // Get random word from the database 
     	public static String[] wordArray () {
     		  String[] word= Client.getNeededInfor("GET_WORD", HomePage.categoryName);
@@ -26,7 +27,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     	}
        
 
-    	 static int time;
+    	
 
         public static void main(String[] args){     
 
@@ -170,9 +171,11 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 			        	
 			        	//Image is sent to server.
 			        	drawPad.sendImage(myBytes);
-						frame.dispose();
-						FinishScreen fs = new FinishScreen();
-						fs.main(null);
+
+			        	JOptionPane.showMessageDialog(null, "Add your image successfully");
+			        	HomePage home = new HomePage();
+			        	home.Home();
+			        	frame.dispose();
 					
 						
 					}else
@@ -243,7 +246,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
     frame.setVisible(true);
 
-    String[] q = wordArray();
+    q = wordArray();
     // Display it out
     lblTopic.setText("Topic: "+ q[1]);
 
@@ -367,12 +370,12 @@ public void sendImage(String g) {
 	
 	//connect to server, convert to binary and send.
 	String[] userID= Client.getNeededInfor("USER_INFO");
-	String[] wordArray = DrawingPage.wordArray();
+//	String[] wordArray = DrawingPage.wordArray();
 
 //	System.out.println("LOL "+ g+" "+userID[1]+"  "+wordArray[2]+" "+wordArray[1]+" "+HomePage.difficultLevel);
 	
 	System.out.println("Encoded Length: "+ g.length());
-	Client.imagesend(userID[1], wordArray[2], HomePage.difficultLevel,g);
+	Client.imagesend(userID[1], DrawingPage.q[2], HomePage.difficultLevel,g);
 }
 
 

@@ -69,7 +69,7 @@ public class JDBC2 {
 			break;
 			// Get word for the guessing mode, get randomly from db
 		case "GET_WORD":
-			System.out.println("Inside Wordname "+ args[0]);
+
 			result = "SELECT TOP 1 WordName, WordID "
 					+ "FROM Words join Word_Category on Words.CategoryID = Word_Category.CategoryID "
 					+ "WHERE CatagoryName = ? "
@@ -83,13 +83,13 @@ public class JDBC2 {
 									
 			break;
 		case "GET_IMAGE":
-			result = " SELECT TOP 1 WordName,DrawingData,DrawingID "
+			result = " SELECT TOP 1 WordName,DrawingData,DrawingID,UserID "
 					+" FROM Drawing join Words on Drawing.WordID = Words.WordID "
 					+" JOIN Word_Category on Words.CategoryID = Word_Category.CategoryID "
 					
 				
-					+" WHERE UserID <> ? AND CatagoryName = ? "
-				//	+"		( SELECT Drawing.DrawingID FROM DRAWING JOIN Correct_Guess on Drawing.DrawingID  = Correct_Guess.DrawingID) "
+					+" WHERE UserID <> ? AND CatagoryName = ? AND DrawingID NOT IN "
+					+"		( SELECT Drawing.DrawingID FROM DRAWING JOIN Correct_Guess on Drawing.DrawingID  = Correct_Guess.DrawingID) "
 					+" ORDER BY NEWID()";
 			break;
 		case "INSERT_GUESS":
@@ -97,24 +97,42 @@ public class JDBC2 {
 					+ " VALUES (?,?,?,?,?)";
 			break;
 		case "UPDATE_POINT":
-			System.out.println("go in update");
-			result =  " UPDATE _User "
+			// Common part of update statement
+			String format =" UPDATE _User "
 					+ " SET _Exp = _Exp + CASE "
-					+ "		WHEN DifficultyLevel = 'Easy' THEN 10 " 
-					+ "		WHEN DifficultyLevel = 'Intermediate' THEN 20 "
-					+ " 	WHEN DifficultyLevel = 'Hard' THEN 30 "
-					+ "		ELSE 0 "
-					+ "		END "
+					+ " WHEN DifficultyLevel = 'Easy' THEN 10 " 
+					+ "		 WHEN DifficultyLevel = 'Intermediate' THEN 20 "
+					+ " 	 WHEN DifficultyLevel = 'Hard' THEN 30 "
+					+ "		 ELSE 0 "
+					+ "		 END ";
+			// Update point for guesser
+			result =format
 					+ " FROM _User JOIN Guess on _User.UserID = Guess.UserID "
 					+ "	WHERE  _User.UserID = ? AND DifficultyLevel = ?  AND SucceedTimes =1 ; "
-					+ "  "
+					+ " "
+					//Update point for drawer
+					+format
+					+ " FROM _User JOIN Drawing on _User.UserID = Drawing.UserID "
+					+ "	WHERE  _User.UserID = ? AND DifficultyLevel = "
+					+ "	(SELECT DifficultyLevel FROM Drawing WHERE DrawingID = ? );"
+					+ " "
+					
+					// update level for both guesser and drawer
 					+ " UPDATE _User "
-					+ "	SET _Level = (_Level +1)  WHERE _Level = ( _Exp / (100 * _Level)) ";
+					+ "	SET _Level = (_Level +1)  WHERE _Level = ( _Exp / 100 ) ";
 					
 			
 			break;
 		case "INSERT_CORRECT_GUESS":
 			result = " INSERT INTO Correct_Guess VALUES (?,?)";
+			break;
+			
+		case "FINAL_RESULT":
+			
+			result = "  SELECT sum(SucceedTimes) as succeed , sum(TotalTime) as total " 
+					+ " from Guess " 
+					+ " where DrawingID = ? ";
+
 			break;
 		
 
@@ -167,7 +185,7 @@ public class JDBC2 {
 		ArrayList<String> resultList = new ArrayList<>();
 		try {
 			if (conn != null) {
-				
+
 				prepStatement = getPreparedStatement(query,args);
 				ResultSet rs = prepStatement.executeQuery();
 				
