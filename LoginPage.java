@@ -99,17 +99,7 @@ public class LoginPage {
 		btnNewButton.setBounds(26, 407, 99, 27);
 		frame.getContentPane().add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("Guess Test");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				GuessingPage guess = new GuessingPage();
-				guess.main(new String[] {"sthg"});
-
-			}
-		});
-		btnNewButton_1.setBounds(26, 352, 99, 27);
-		frame.getContentPane().add(btnNewButton_1);
-
+		
 		// Button Onlick Listener
 		// Login button event handler
 		btnLogin.addActionListener(new ActionListener() {
