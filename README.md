@@ -2,7 +2,7 @@
 
 How to use:
 
-Requirements:
+## Requirements
 
 Server
 ----------------
