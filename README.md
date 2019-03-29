@@ -2,16 +2,17 @@
 
 How to use:
 
-## Requirements
 Server
 ----------------
 - JDBC
 - Java
 - MSSQL Server
 
+To run server you will need to open JDBC 
+
+
 Client
 ----------------
-Java
+- Java
 
 Compiled via Eclipse, Server must be available for client to work.
-To run server you will need to open JDBC 
