@@ -3,7 +3,6 @@
 How to use:
 
 ## Requirements
-
 Server
 ----------------
 - JDBC
