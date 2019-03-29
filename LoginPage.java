@@ -88,16 +88,6 @@ public class LoginPage {
 		passwordFieldSignIn.setBounds(282, 281, 291, 38);
 		frame.getContentPane().add(passwordFieldSignIn);
 
-		JButton btnNewButton = new JButton("Home Test");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				HomePage homePage = new HomePage();
-				homePage.Home();
-
-			}
-		});
-		btnNewButton.setBounds(26, 407, 99, 27);
-		frame.getContentPane().add(btnNewButton);
 
 		
 		// Button Onlick Listener
