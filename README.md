@@ -7,10 +7,10 @@ Server
 - JDBC
     1. Import JDBC 
     2. Change authentication mode 
-    https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/changeserver-authentication-mode?view=sql-server-2017 
+    https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/change-server-authentication-mode?view=sql-server-2017 
     3. Enable tcp/ip 
-    https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-configurationmanager?view=sql-server-2017 
-    https://www.habaneroconsulting.com/stories/insights/2015/tcpip-is-disabled-bydefault-in-microsoft-sql-server-2014 
+    https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-configuration-manager?view=sql-server-2017 
+    https://www.habaneroconsulting.com/stories/insights/2015/tcpip-is-disabled-by-default-in-microsoft-sql-server-2014
     
     Also need to start SQL Server Browser 
     
