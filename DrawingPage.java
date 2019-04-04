@@ -28,7 +28,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
        
 
     	
-
+    	static Timer t;
      public static void main(String[] args){     
 
     JFrame frame = new JFrame("Draw Something");    
@@ -128,6 +128,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
         	
         	//drawPad.ByteToImage(myBytes, "C:/translated.jpg");
         //	JOptionPane.showMessageDialog(null, "The Drawing Sent");
+        	t.stop();
         	HomePage homePage = new HomePage();
 			homePage.Home();
 			// Close previous screen
@@ -153,7 +154,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
     panel.add(sendButton);
     
     drawPad.addMouseListener(new MouseAdapter() {
-    	Timer t;
+    	
     	int sec =time;
     	@Override
     	public void mousePressed(MouseEvent e) {

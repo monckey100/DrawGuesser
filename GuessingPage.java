@@ -77,6 +77,7 @@ public class GuessingPage {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	Timer t;
 	private void initialize() {
 		
 		frame = new JFrame();
@@ -121,7 +122,7 @@ public class GuessingPage {
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
 					
 			
-			Timer t;	    	
+				    	
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				frame.getContentPane().removeMouseListener(this);
@@ -206,11 +207,13 @@ public class GuessingPage {
 					Client.updatePoint(userID[1], HomePage.difficultLevel,imageInfo[4],imageInfo[3]);
 					// Ensure that user wont receive the same image that they gave the correct answer
 					Client.insertCorrectGuess(userID[1],imageInfo[3]);
+					t.cancel();
 					navigateScreen();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Wrong answer!/nPlease Try Again");
 					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"0","1");
+					t.cancel();
 					navigateScreen();
 					
 				}

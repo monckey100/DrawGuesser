@@ -127,5 +127,8 @@ ORDER BY NEWID()
  
  select (99/100),userName from _User
 
+ select * from guess
 
-
+  SELECT sum(SucceedTimes) as succeed , sum(TotalTime) as total  
+					 from Guess  
+					 where DrawingID = 3

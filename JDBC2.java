@@ -25,7 +25,7 @@ public class JDBC2 {
 		}
 	}
 	
-	public static void closeConnection() {		
+	public static void closeConnection() {		 
 			try {
 				if (conn != null && !conn.isClosed()) {
 					conn.close();
@@ -42,7 +42,7 @@ public class JDBC2 {
 		case "LOGIN":
 			result = "SELECT UserID FROM _User WHERE userName = ? AND _Password = ?";
 			// Keep a record of the username
-			Client.username = args[0];
+			Client.username =args[0];
 			
 			break;
 

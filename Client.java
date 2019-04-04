@@ -8,8 +8,9 @@ import java.util.Arrays;
 
 class Client {
 	// Set username once authenticated so we can reuse it.
-	public static String username = "aaa";
-	
+	public static String username ;
+
+
 	public static boolean login(String userName, String password) {
 		String[] result = send("LOGIN", new String[] { userName, password });
 
