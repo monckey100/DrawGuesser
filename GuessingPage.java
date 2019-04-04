@@ -119,40 +119,7 @@ public class GuessingPage {
 		
 		 
 		
-		frame.getContentPane().addMouseListener(new MouseAdapter() {
-					
-			
-				    	
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				frame.getContentPane().removeMouseListener(this);
-	    		t =new Timer();
-	    		t.scheduleAtFixedRate(new TimerTask() {
-					int i = time;
-					@Override
-					public void run() {
-						Countdown.setForeground(Color.RED);
-						Countdown.setText(""+(i--));
-						 if(i<0)
-						 {
-							 
-							 t.cancel();
-							 JOptionPane.showMessageDialog(null, "Times up");
-							 Countdown.setText("Times Over");
-							 textFieldGuessing.disable();
-							 frame.dispose();
-							 FinishScreen fs = new FinishScreen();
-							 fs.main(null);
-						 }
-					}
-				}, 0, 1000);
-	    		
-	    		
-	    	}
-
-		});
 		
-		getTime(HomePage.difficultLevel);
 
 		// Use to display the image
         lbl=new JLabel();
@@ -163,6 +130,8 @@ public class GuessingPage {
 		if(imageInfo[0].equals("Fail")) {
 			lbl.setText("There are no available images! Please try again later");	
 			lbl.setFont(new Font("Serif", Font.PLAIN, 20));
+			Countdown.setText("");
+		
 
 			textFieldGuessing.setEditable(false);
 			btnGuessing.setEnabled(false);
@@ -179,7 +148,41 @@ public class GuessingPage {
 		}
 		else {			
 			convertToImage(imageInfo[2]);
-			displayImage();		
+			displayImage();	
+			frame.getContentPane().addMouseListener(new MouseAdapter() {
+				
+				
+		    	
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					frame.getContentPane().removeMouseListener(this);
+		    		t =new Timer();
+		    		t.scheduleAtFixedRate(new TimerTask() {
+						int i = time;
+						@Override
+						public void run() {
+							Countdown.setForeground(Color.RED);
+							Countdown.setText(""+(i--));
+							 if(i<0)
+							 {
+								 
+								 t.cancel();
+								 JOptionPane.showMessageDialog(null, "Times up");
+								 Countdown.setText("Times Over");
+								 textFieldGuessing.disable();
+								 frame.dispose();
+								 FinishScreen fs = new FinishScreen();
+								 fs.main(null);
+							 }
+						}
+					}, 0, 1000);
+		    		
+		    		
+		    	}
+
+			});
+			
+			getTime(HomePage.difficultLevel);
 		}
 		
 		
