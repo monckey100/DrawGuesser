@@ -96,17 +96,7 @@ class Client {
 		return result;
 	}
 
-	 
-	/*public static boolean sendImage(String bytes) {
-		if (Client.username != null) {
-			String[] result = send("IMAGESEND", new String[] { Client.username, bytes });
-			if (result[0].equals("Success")) {
-				return true;
-			}
-			return false;
-		}
-		return false;
-	}*/
+	
 
 	// Method that in charge of sending user request package to the server for processing
 	public static String[] send(String type, String[] Data) {
