@@ -201,7 +201,7 @@ public class GuessingPage {
 				// Get user ID
 				String[] userID= Client.getNeededInfor("USER_INFO");
 				// Compare correct answer
-				System.out.print("Answre is "+userAnswer + " "+imageInfo[1]);
+
 				if( userAnswer.toLowerCase().equals(imageInfo[1].toLowerCase())) { 
 					JOptionPane.showMessageDialog(null, "That answer is correct !");
 					
@@ -216,8 +216,8 @@ public class GuessingPage {
 				else {
 					JOptionPane.showMessageDialog(null, "Wrong answer!/nPlease Try Again");
 					Client.insertGuess(HomePage.difficultLevel,imageInfo[3],userID[1],"0","1");
-					t.cancel();
-					navigateScreen();
+				//	t.cancel();
+					//navigateScreen();
 					
 				}
 				
@@ -233,10 +233,13 @@ public class GuessingPage {
 		frame.dispose();
 	}
 	public static void displayImage() {
+		// Get default path
 		String path  = System.getProperty("user.dir");
 
 		BufferedImage img = null;
 		try {
+			// Read converted image
+			// from application directory
 			img = ImageIO.read(new File(path + "//translatedImage.jpeg"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -248,7 +251,7 @@ public class GuessingPage {
 	}
 
 	public static void convertToImage(String imageCode) {
-	
+	// Convert image byte code back to an image
 		PadDraw.ByteToImage(imageCode, "translatedImage.jpeg");
 	}
 	// Get image and answer array

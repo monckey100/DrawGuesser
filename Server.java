@@ -19,27 +19,25 @@ class Server {
 				myConn.parsePacket(packet);
 				// Hold packet to send
 				String[] sendInfo = null;	
-				// Array of needed information
+				// Array of needed information - table's columns name
 				String[] neededInfo = null;
 				System.out.println("TYPE: " + myConn.getType() + " DATA: " + Arrays.toString(myConn.getData()));
 				switch (myConn.getType()) {
-				/*
-				  LoginPage.Java -- Client should store UserID
-				*/
+
+				// Login request type
 				case "LOGIN":
-					// Client: { username, password }
-					// Server: { "Success", "userID" }
+				// Array of columns name that needed for return user information
 					neededInfo = new String[] {"UserID"};
 					try {
 						myConn.setType("LOGIN");
+						// Get user's username and password
 						String username = myConn.getData()[0];
 						String password = myConn.getData()[1];
 						System.out.println("Username: '" + username + "' Password: '" + password + "'");
 						
-						//{"Success"}
+						// Call jdbc class to execute query and pass the result back
 						sendInfo = jdbc.getData("LOGIN",neededInfo,username,password);
 	
-						//sendInfo = new String[] { "Success", "1337", "1" };
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -47,8 +45,7 @@ class Server {
 					break;
 				case "SIGNUP":
 					myConn.setType("SIGNUP");
-					//Client: { username, password, firstname, lastname, email }
-					//Server: {"Success","userID"}
+					// Call jdbc class to execute query and pass the result back
 					sendInfo = jdbc.modifyData("SIGNUP", myConn.getData());
 					break;
 				/*
@@ -62,9 +59,7 @@ class Server {
 				 	This is used for both Drawing + Guessing.
 				 */
 				case "DIFFICULT_LEVEL":
-					//GET DIFFICULTY LEVELS AVAILABLE
-					// Client: {userID}
-					// Server: {Difficulty 1, Difficulty 2, Difficulty 3....}
+
 					neededInfo = new String[] {"DifficultyLevel"};
 					myConn.setType("DIFFICULT_LEVEL");
 					sendInfo = jdbc.getData("DIFFICULT_LEVEL", neededInfo);
@@ -114,15 +109,7 @@ class Server {
 					sendInfo = jdbc.getData("GET_IMAGE", neededInfo, myConn.getData());
 					
 					break;
-				case "SENDGUESS":
-					 /*
-					 	Client either keeps guessing if time is left or moves on if correct.
-					 	
-					 	If Correct, Server will give EXP/Level to drawer and guesser.
-					 */
-					//Client: {userID,drawingID,timeleft}
-					//Server: {"Correct"/"Incorrect"} 
-				break;
+
 				case "USER_INFO":
 					/*
 					  Client will ask for USER_INFO after every game finished.

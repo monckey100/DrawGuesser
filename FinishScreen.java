@@ -85,7 +85,7 @@ public class FinishScreen {
 		JButton btnReturnHomePage = new JButton("Return to home page");
 		btnReturnHomePage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				// Navigate to home page
 				HomePage homePage = new HomePage();
 				homePage.Home();
 				frame.dispose();
@@ -98,17 +98,14 @@ public class FinishScreen {
 		// Variables that will hold user's username, level and xp
 		String[] userInfor = Client.getNeededInfor("USER_INFO");
 		// Get information from the database
-		//System.out.println("FN "+GuessingPage.imageInfo[3]);
 		String[] finalResult = Client.getNeededInfor("FINAL_RESULT", GuessingPage.imageInfo[3]);
-		//
-		//System.out.print(userInfor[2]);
-		//System.out.print(userInfor[3]);
+
 		// Display user's information
 		lblUserName.setText("Name: " +userInfor[2]);
 		lblLevel.setText("Current level: "+userInfor[3]);
 		lblXP.setText("Current Xp: "+userInfor[4]);
 		
-		
+		// Display final result
 		lblTotalGuesses.setText(finalResult[2]);
 		lblCorrectGuesses.setText(finalResult[1]);
 		

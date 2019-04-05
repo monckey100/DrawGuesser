@@ -10,7 +10,10 @@ class Client {
 	// Set username once authenticated so we can reuse it.
 	public static String username ;
 
-
+	// The result array first element always return an indicator whether the request 
+	// is successfully reply with a result or not
+	
+	// Login request from user
 	public static boolean login(String userName, String password) {
 		String[] result = send("LOGIN", new String[] { userName, password });
 
@@ -21,6 +24,7 @@ class Client {
 		return false;
 	}
 
+	// Sign up request from user
 	public static boolean signup(String username, String email, String password, String firstname, String lastname) {
 		String[] result = send("SIGNUP", new String[] { username, email,password, firstname, lastname });
 		if (result[0].equals("Success")) {
@@ -30,7 +34,7 @@ class Client {
 		return false;
 	}
 	
-	
+	// Request that get the time period for every single difficult level
 	public static boolean time_period(String difficulty)
 	{
 		String[] result = send("TIME_PERIOD", new String[] { difficulty});
@@ -40,7 +44,7 @@ class Client {
 		}
 		return false;		
 	}
-	
+	// Request that send images to the server
 	public static boolean imagesend(String userID,String word_id,String difficulty,String image_data)
 	{
 
@@ -53,16 +57,8 @@ class Client {
 		return false;		
 	}
 	
-	
-	public static boolean sendguess(String userID,String drawingID,String timeleft)
-	{
-		String[] result = send("SENDGUESS", new String[] { userID, drawingID, timeleft});
-		if (result[0].equals("Success")) {
-	
-			return true;
-		}
-		return false;		
-	}
+	// Request that insert correct guess to the database
+
 	
 	public static boolean insertGuess(String ... args)
 	{
@@ -73,6 +69,7 @@ class Client {
 		}
 		return false;		
 	}
+	// Request that update points for correct guess
 	public static boolean updatePoint(String userID, String diffLevel,String drawerID, String drawingID) {
 		String[] result = send("UPDATE_POINT", new String[] {userID,diffLevel,drawerID,drawingID});
 		if (result[0].equals("Success")) {
@@ -81,6 +78,7 @@ class Client {
 		}
 		return false;
 	}
+	// Request that insert guesses no matter it right or not
 	public static boolean insertCorrectGuess(String userID, String drawingID) {
 		String[] result = send("INSERT_CORRECT_GUESS", new String[] {userID,drawingID});
 		if (result[0].equals("Success")) {
@@ -90,12 +88,7 @@ class Client {
 		return false;
 	}
 	
-
-	
-	
-	
-	
-	
+	// Request that get general information from the users
 	public static  String [] getNeededInfor(String info,String... args) {
 
 		String[] result =send(info, args);
@@ -103,8 +96,8 @@ class Client {
 		return result;
 	}
 
-	// This needs difficulty + what image and whatnot.
-	public static boolean sendImage(String bytes) {
+	 
+	/*public static boolean sendImage(String bytes) {
 		if (Client.username != null) {
 			String[] result = send("IMAGESEND", new String[] { Client.username, bytes });
 			if (result[0].equals("Success")) {
@@ -113,8 +106,9 @@ class Client {
 			return false;
 		}
 		return false;
-	}
+	}*/
 
+	// Method that in charge of sending user request package to the server for processing
 	public static String[] send(String type, String[] Data) {
 		clientConnection myConn = new clientConnection("localhost");
 		// Send the request
@@ -131,7 +125,7 @@ class Client {
 	
 
 }
-
+// Class that handle connection
 class clientConnection {
 	InetAddress IPAddress = null;
 	DatagramSocket clientSocket = null;
@@ -153,11 +147,12 @@ class clientConnection {
 			e.printStackTrace();
 		}
 	}
-
+	// Method concatenate request type and the data array
 	public void sendData(String Type, String[] data) {
 		sendrawData(Type + "|" + Arrays.toString(data));
 	}
-
+	
+	// Method that send the package to the server
 	public void sendrawData(String request) {
 		byte[] sendData = new byte[100000];
 		sendData = request.getBytes();
@@ -169,7 +164,7 @@ class clientConnection {
 			e.printStackTrace();
 		}
 	}
-
+	// Method that handle receive the package from the server
 	public String receiveData() {
 		byte[] receiveData = new byte[100000];
 		String databasePackage;
@@ -186,21 +181,22 @@ class clientConnection {
 		parseData();
 		return databasePackage;
 	}
-
+	// Type getter
 	public String getType() {
 		return mType;
 	}
-
+	// data setter
 	public String[] getData() {
 		return mData;
 	}
-
+	// split the package that include request type and data itself
 	public void parseData() {
 		String[] f = rawData.trim().split("\\|");
 		mType = f[0];
 		mData = pData(f[1]);
 	}
 
+	// Process data
 	public String[] pData(String x) {
 		// remove first character [
 		String m = x.substring(1);
@@ -208,7 +204,7 @@ class clientConnection {
 		m = m.substring(0, m.length() - 1);
 		return m.split(", ");
 	}
-
+	// Close connection
 	public void closeConnection() {
 		clientSocket.close();
 	}

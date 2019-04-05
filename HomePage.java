@@ -111,17 +111,8 @@ public class HomePage {
 				String gameMode = comboBoxGameMode.getSelectedItem().toString();
 				difficultLevel = comboBoxDifficultLevel.getSelectedItem().toString();
 				categoryName = comboBoxCategory.getSelectedItem().toString();
-		//		DrawingPage draw = new DrawingPage("sthg");
-		//		draw.main(new String[] {"sthg"});
-		//		frame.dispose();
-				// Send the request to the server with these key words
-				// Processing with the database
-				//
-				
-				// After that navigate to appropriate mode
 
-				
-
+				// Let user pick game mode
 				if(gameMode.equals("Drawing")) {
 					DrawingPage draw = new DrawingPage(difficultLevel);
 							draw.main(new String[] {"sthg"});
@@ -166,16 +157,12 @@ public class HomePage {
 		for ( int i = 1 ; i < difficultMode.length; i++) {
 			comboBoxDifficultLevel.addItem(difficultMode[i]);
 		}
-		// Just to test retrieved time period from the db
-		System.out.println("This is the current time period:  "+timePeriod[1]);
+
 		
 		for( int i = 1; i < wordCategory.length ; i++) {
 			comboBoxCategory.addItem(wordCategory[i]);
 		}
-		// Combo box for category
-		// Get the word category from the database
-		// Set the combobox
-		//
+
 		
 		
 		

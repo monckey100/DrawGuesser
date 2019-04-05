@@ -40,6 +40,7 @@ public class JDBC2 {
 		String result = "";
 		switch(requestType) {
 		case "LOGIN":
+			// Simple query to check username and password
 			result = "SELECT UserID FROM _User WHERE userName = ? AND _Password = ?";
 			// Keep a record of the username
 			Client.username =args[0];
@@ -47,6 +48,7 @@ public class JDBC2 {
 			break;
 
 		case "SIGNUP":
+			// Sign up proceed if email and username doesn't exist in the database
 			result =  "IF NOT EXISTS ( SELECT * FROM _User WHERE Email = '" +args[1]+"' OR userName = '"+ args[0]+"' ) "
 					+ " BEGIN "
 					+ " INSERT INTO _USER (userName,Email,_Password,Fname,Lname,_Level,_Exp) "
@@ -55,19 +57,23 @@ public class JDBC2 {
 					+ "END;" ;
 			break;
 		case "DIFFICULT_LEVEL":
+			// Get difficulty level
 			result = "SELECT DifficultyLevel FROM DifficultyLevel";
 			break;
 		case "TIME_PERIOD":
+			// Get time period
 			result = "SELECT TimePeriod FROM DifficultyLevel WHERE DifficultyLevel = ?";
 			break;
 		case "WORD_CATEGORY":
+			// Get word category for menu gui
 			result = "SELECT CatagoryName FROM Word_Category";
 			break;
 		case "USER_INFO":
-			System.out.println(Client.username+ "  TEST");
+			// Get user general information
 			result = "SELECT UserID,userName,_Level,_Exp FROM _User WHERE userName= '" + Client.username+"'";
 			break;
-			// Get word for the guessing mode, get randomly from db
+			
+			// Get a word for the guessing mode, get randomly from db
 		case "GET_WORD":
 
 			result = "SELECT TOP 1 WordName, WordID "
@@ -76,12 +82,20 @@ public class JDBC2 {
 					+ "ORDER BY NEWID()";
 					
 			break;
+			// Send image to drawing table and convert string data type to nvarchar(max)
 		case "IMAGESEND":
 
 			result =  " INSERT INTO Drawing(UserID,WordID,DifficultyLevel,DrawingData) "
 						+ " VALUES (?,?,?,cast(? as nvarchar(max)) ); ";
 									
 			break;
+			
+			
+			
+			//Get a random image from drawing with 2 conditions:
+			// First: not from the same user who draw it
+			// Second: not display the same image that this user made a right guess before
+			
 		case "GET_IMAGE":
 			result = " SELECT TOP 1 WordName,DrawingData,DrawingID,UserID "
 					+" FROM Drawing join Words on Drawing.WordID = Words.WordID "
@@ -92,12 +106,13 @@ public class JDBC2 {
 					+"		( SELECT Drawing.DrawingID FROM DRAWING JOIN Correct_Guess on Drawing.DrawingID  = Correct_Guess.DrawingID) "
 					+" ORDER BY NEWID()";
 			break;
+			// Insert user guess to Guess table
 		case "INSERT_GUESS":
 			result =  " INSERT INTO Guess(DifficultyLevel,DrawingID,UserID,SucceedTimes,TotalTime) "
 					+ " VALUES (?,?,?,?,?)";
 			break;
 		case "UPDATE_POINT":
-			// Common part of update statement
+			// Common part of update statement for drawer and guesser
 			String format =" UPDATE _User "
 					+ " SET _Exp = _Exp + CASE "
 					+ " WHEN DifficultyLevel = 'Easy' THEN 10 " 
@@ -123,10 +138,14 @@ public class JDBC2 {
 					
 			
 			break;
+			
+			// Insert correct guess to seperate table to ensure that the correct guess for 
+			// specific user won't show up for that user again
 		case "INSERT_CORRECT_GUESS":
 			result = " INSERT INTO Correct_Guess VALUES (?,?)";
 			break;
 			
+			// Simple query to get result per image
 		case "FINAL_RESULT":
 			
 			result = "  SELECT sum(SucceedTimes) as succeed , sum(TotalTime) as total " 
@@ -143,18 +162,20 @@ public class JDBC2 {
 		
 		return result;
 	}
-	
+	//Method that will prepare multiple	statement with passed parameters
 	public static PreparedStatement getPreparedStatement(String query,String ... args) {
 		PreparedStatement prepStmt1 = null;		
 
 		try {
 			if(conn !=null) {
-				
+				// Set a default setting for prepared statement
 				prepStmt1 = conn.prepareStatement(query,ResultSet.TYPE_SCROLL_SENSITIVE, 
                         ResultSet.CONCUR_UPDATABLE);
+				// Only prepare the statement with parameters
+				
 				if( args.length !=0) {
 					for(int i = 0 ; i < args.length ; i++) {
-						System.out.println("PRE :"+args[i]);
+			
 						prepStmt1.setString(i+1, args[i]);								
 					}
 				}	
@@ -189,7 +210,8 @@ public class JDBC2 {
 				prepStatement = getPreparedStatement(query,args);
 				ResultSet rs = prepStatement.executeQuery();
 				
-				if ( rs.next() ) {				
+				if ( rs.next() ) {		
+					// Set the cursor to beginning
 						rs.beforeFirst();
 						while(rs.next()) {				
 							for(int  i =0 ; i < inforArray.length; i++) {
@@ -203,7 +225,6 @@ public class JDBC2 {
 					resultList.add(0, "Success");
 					// Convert arraylist to array
 					resultArray = resultList.toArray(new String[resultList.size()])	;
-				//	System.out.println("Inside jdbc2: "+resultArray[resultArray.length-1].length());
 				}
 				else
 					resultArray = new String[] {"Fail"};
